@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jackett
+  namespace: plex
+  labels:
+    app: jackett
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jackett
+  template:
+    metadata:
+      labels:
+        app: jackett
+    spec:
+      containers:
+      - name: jackett
+        image: linuxserver/jackett:latest
+        ports:
+          - containerPort: 9117
+            protocol: TCP
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: Europe/Madrid
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "0.1"
+          limits:
+            memory: "256Gi"
+            cpu: "0.5"
+        volumeMounts:
+        - name: jackett-config
+          mountPath: /config
+        - name: jackett-nfs
+          mountPath: /downloads
+          subPath: jacket/downloads
+
+      # - name: wireguard-sidecar
+      #   image: linuxserver/wireguard:latest
+      #   securityContext:
+      #     privileged: true
+      #     capabilities:
+      #       add:
+      #         - NET_ADMIN
+      #   resources:
+      #     requests:
+      #       memory: "256Mi"
+      #       cpu: "250m"
+      #     limits:
+      #       memory: "512Gi"
+      #       cpu: "500m"
+      #   volumeMounts:
+      #   - name: wg-config
+      #     mountPath: /config/wg_confs
+
+      - name: openvpn-sidecar
+        image: dperson/openvpn-client:latest
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+              - NET_ADMIN
+        env:
+        - name: TZ
+          value: Europe/Madrid
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Gi"
+            cpu: "500m"
+        volumeMounts:
+        - name: openvpn-config
+          mountPath: /vpn
+
+      volumes:
+      # - name: wg-config
+      #   secret:
+      #     secretName: wireguard-conf
+      - name: openvpn-config
+        secret:
+          secretName: openvpn-jacket-conf
+      - name: jackett-config
+        persistentVolumeClaim:
+          claimName: jacket-config
+      - name: jackett-nfs
+        persistentVolumeClaim:
+          claimName: transmission-nfs-pvc

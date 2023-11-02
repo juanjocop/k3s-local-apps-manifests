@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  namespace: plex
+  labels:
+    app: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - name: radarr
+        image: linuxserver/radarr:latest
+        ports:
+          - containerPort: 7878
+            protocol: TCP
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/Madrid"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "0.1"
+          limits:
+            memory: "256Gi"
+            cpu: "0.5"
+        volumeMounts:
+        - name: radarr-config
+          mountPath: /config
+        - name: radarr-nfs
+          mountPath: /downloads
+          subPath: transmission/downloads
+        - name: radarr-nfs
+          mountPath: /data
+          subPath: transmission/downloads
+        - name: radarr-nfs
+          mountPath: /movies
+          subPath: peliculas/radarr
+
+      volumes:
+      - name: radarr-config
+        persistentVolumeClaim:
+          claimName: radarr-config
+      - name: radarr-nfs
+        persistentVolumeClaim:
+          claimName: transmission-nfs-pvc

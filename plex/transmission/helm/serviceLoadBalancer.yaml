@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: transmission-service
+  namespace: plex  # Asegúrate de reemplazar <TU_NAMESPACE> con el namespace donde tienes tu Deployment de Transmission.
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.11.1
+spec:
+  selector:
+    app: transmission  # Asegúrate de que esta etiqueta coincide con la de tu Deployment de Transmission.
+  ports:
+    - name: web-ui
+      protocol: TCP
+      port: 80
+      targetPort: 9091
+  type: LoadBalancer

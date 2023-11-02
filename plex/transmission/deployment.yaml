@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  namespace: plex
+  labels:
+    app: transmission
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transmission
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      containers:
+      - name: transmission
+        image: linuxserver/transmission:latest
+        ports:
+          - containerPort: 9091
+            protocol: TCP
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: Europe/Madrid
+        resources:
+          requests:
+            memory: "250Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        volumeMounts:
+        - name: transmission-config
+          mountPath: /config
+        - name: transmission-nfs
+          mountPath: /downloads
+          subPath: transmission/downloads
+        - name: transmission-nfs
+          mountPath: /watch
+          subPath: transmission/watch
+
+      - name: openvpn-sidecar
+        image: dperson/openvpn-client:latest
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+              - NET_ADMIN
+        env:
+        - name: TZ
+          value: Europe/Madrid
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Gi"
+            cpu: "500m"
+        volumeMounts:
+        - name: openvpn-config
+          mountPath: /vpn
+
+      volumes:
+      - name: openvpn-config
+        secret:
+          secretName: openvpn-jacket-conf
+      - name: transmission-config
+        persistentVolumeClaim:
+          claimName: transmission-config
+      - name: transmission-nfs
+        persistentVolumeClaim:
+          claimName: transmission-nfs-pvc
