@@ -13,6 +13,7 @@ spec:
     volumeMounts:
     - name: mi-volumen
       mountPath: /data
+  resources:
   volumes:
   - name: mi-volumen
     persistentVolumeClaim:

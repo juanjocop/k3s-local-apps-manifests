@@ -9,3 +9,4 @@ spec:
     image: alpine
     command: ["/bin/sh"]
     args: ["-c", "sleep 3600"]
+  resources:
