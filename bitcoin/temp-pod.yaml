@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tmp-pod
+  namespace: bitcoin
+spec:
+  containers:
+  - name: tmp-container
+    image: busybox
+    command:
+      - sleep
+      - "3600"
+    volumeMounts:
+    - name: bitcoin-storage
+      mountPath: /root/.bitcoin
+  resources:
+  volumes:
+  - name: bitcoin-storage
+    persistentVolumeClaim:
+      claimName: bitcoind

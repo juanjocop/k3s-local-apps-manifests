@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bitcoin-config
+  namespace: bitcoin
+data:
+  bitcoin.conf: |
+    onion=tor-service:9050
+    listen=1
+    externalip=nmvo6zbid5blh5rjqwysr7sute5jd7x3a6i6uyug52jlwd2wzsrmo2id.onion
+    #these are other Tor nodes that will help your node find peers
+    seednode=nkf5e6b7pl4jfd4a.onion
+    seednode=xqzfakpeuvrobvpj.onion
+    seednode=tsyvzsqwa2kkf6b2.onion
+    #these lines help limit potential DOS attacks over Tor
+    banscore=10000
+    bantime=11
+
+    #if you would like your node to only connect over tor use
+    onlynet=onion

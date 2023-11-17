@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: bitcoin-core
+  namespace: bitcoin
+spec:
+  serviceName: "bitcoin-core"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bitcoin-core
+  template:
+    metadata:
+      labels:
+        app: bitcoin-core
+    spec:
+      initContainers:
+      - name: init-bitcoin-config
+        image: busybox
+        command: ['sh', '-c', 'cp /config/bitcoin.conf /bitcoin/']
+        volumeMounts:
+        - name: bitcoin-config-volume
+          mountPath: /config
+        - name: bitcoin-storage
+          mountPath: /bitcoin
+      containers:
+      - name: bitcoin-core
+        image: juanjocop/bitcoin-core:0.1-arm64  # Reemplaza con el nombre de tu imagen
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+        ports:
+        - containerPort: 8333
+        # livenessProbe:
+        #   exec:
+        #     command:
+        #     - bitcoin-cli
+        #     - getblockchaininfo
+        #   initialDelaySeconds: 120
+        #   periodSeconds: 60
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #     - bitcoin-cli
+        #     - getblockchaininfo
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 30
+        volumeMounts:
+        - name: bitcoin-storage
+          mountPath: /root/.bitcoin
+      volumes:
+      - name: bitcoin-storage
+        persistentVolumeClaim:
+          claimName: bitcoind
+      - name: bitcoin-config-volume
+        configMap:
+          name: bitcoin-config
