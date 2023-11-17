@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflare-dns-config-ceres
+  namespace: wordpress
+data:
+  CF_ZONE_ID: ebabd02d64a8ec0a774c4df73659189e
+  CF_RECORD_TYPE: A
+  CF_RECORD_NAME: ceresterapiayformacion.com
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflare-dns-config-maitri
+  namespace: wordpress
+data:
+  CF_ZONE_ID: 202292b3c5b7de7b646eeeea12182d8a
+  CF_RECORD_TYPE: A
+  CF_RECORD_NAME: asociacionmaitri.es

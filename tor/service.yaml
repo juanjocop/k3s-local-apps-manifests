@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tor-service
+  namespace: bitcoin
+spec:
+  selector:
+    app: tor
+  ports:
+    - protocol: TCP
+      port: 9050
+      targetPort: 9050
+  type: ClusterIP

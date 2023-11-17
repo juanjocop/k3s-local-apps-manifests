@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tor
+  namespace: bitcoin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tor
+  template:
+    metadata:
+      labels:
+        app: tor
+    spec:
+      initContainers:
+      - name: init-tor
+        image: alpine
+        command: ["sh", "-c", "chmod 700 /var/lib/tor/bitcoin-service/"]
+        volumeMounts:
+        - name: tor-data-volume
+          mountPath: /var/lib/tor/bitcoin-service
+      containers:
+      - name: tor
+        image: juanjocop/tor:0.1
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        ports:
+        - containerPort: 9050
+        livenessProbe:
+          tcpSocket:
+            port: 9050
+          initialDelaySeconds: 30
+          periodSeconds: 60
+        readinessProbe:
+          tcpSocket:
+            port: 9050
+          initialDelaySeconds: 15
+          periodSeconds: 30
+        volumeMounts:
+        - name: tor-config-volume
+          mountPath: /etc/tor/torrc
+          subPath: torrc
+        - name: tor-data-volume
+          mountPath: /var/lib/tor/bitcoin-service
+      volumes:
+      - name: tor-config-volume
+        configMap:
+          name: tor-config
+      - name: tor-data-volume
+        persistentVolumeClaim:
+          claimName: tor-data

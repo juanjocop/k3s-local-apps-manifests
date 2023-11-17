@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: wordpress-ceres
+  name: wordpress-ceres-service
+  namespace: wordpress
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: wordpress-ceres
+  sessionAffinity: None
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: wordpress-maitri
+  name: wordpress-maitri-service
+  namespace: wordpress
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: wordpress-maitri
+  sessionAffinity: None
+  type: ClusterIP
+
+# ---
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   labels:
+#     app: wordpress-maitri
+#   name: wordpress-maitri-service-testing
+#   namespace: wordpress
+#   annotations:
+#     metallb.universe.tf/loadBalancerIPs: 192.168.11.100
+# spec:
+#   ports:
+#     - name: http
+#       port: 80
+#       protocol: TCP
+#       targetPort: 80
+#   selector:
+#     app: wordpress-maitri
+#   sessionAffinity: None
+#   type: LoadBalancer

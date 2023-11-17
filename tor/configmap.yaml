@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tor-config
+  namespace: bitcoin
+data:
+  torrc: |
+    SocksPort 0.0.0.0:9050 # Cambia el puerto según tus necesidades
+    Log notice stdout
+    ControlPort 9051
+    HiddenServiceDir /var/lib/tor/bitcoin-service/
+    HiddenServicePort 8333 bitcoin-core-service:8333

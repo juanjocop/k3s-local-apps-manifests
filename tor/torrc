@@ -1,0 +1,3 @@
+SocksPort 0.0.0.0:9050 # Cambia el puerto según tus necesidades
+Log notice stdout
+ControlPort 9051

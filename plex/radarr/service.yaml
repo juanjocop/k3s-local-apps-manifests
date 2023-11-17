@@ -16,3 +16,21 @@ spec:
       targetPort: 7878
       protocol: TCP
   type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-service-cluster-ip
+  namespace: plex  
+  labels:
+    app: radarr
+spec:
+  selector:
+    app: radarr
+  ports:
+    - name: webui
+      port: 80
+      targetPort: 7878
+      protocol: TCP

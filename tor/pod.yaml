@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tor-pod
+  namespace: bitcoin
+spec:
+  containers:
+  - name: tor
+    image: juanjocop/tor:0.1
+    ports:
+    - containerPort: 9050

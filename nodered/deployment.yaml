@@ -51,4 +51,4 @@ spec:
       volumes:
         - name: node-red-claim
           persistentVolumeClaim:
-            claimName: nodered
+            claimName: nodered2

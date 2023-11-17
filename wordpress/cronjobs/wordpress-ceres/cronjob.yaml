@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cloudflare-ip-updater-ceres
+  namespace: wordpress
+spec:
+  schedule: "0 */5 * * *" # Esto ejecutará el job cada 5 horas. Ajusta esto según lo necesites.
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: updater
+            image: juanjocop/update-cloudflare-dns:latest # Reemplaza esto con la imagen de Docker que contenga tu script.
+            imagePullPolicy: Always
+            env:
+            - name: CF_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-api-secret
+                  key: CF_API_TOKEN
+            - name: CF_ZONE_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: cloudflare-dns-config-ceres
+                  key: CF_ZONE_ID
+            - name: CF_RECORD_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: cloudflare-dns-config-ceres
+                  key: CF_RECORD_NAME
+            - name: CF_RECORD_TYPE
+              valueFrom:
+                configMapKeyRef:
+                  name: cloudflare-dns-config-ceres
+                  key: CF_RECORD_TYPE
+          restartPolicy: OnFailure

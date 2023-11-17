@@ -1,0 +1,157 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-ceres
+  namespace: wordpress
+  labels:
+    app: wordpress-ceres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress-ceres
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: wordpress-ceres
+    spec:
+      initContainers:
+      - name: volume-permissions
+        image: busybox
+        command: ['sh', '-c', 'chown -R 33:33 /var/www/html && find /var/www/html -type d -exec chmod 755 {} \; && find /var/www/html -type f -exec chmod 644 {} \;']
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html
+
+      containers:
+      - name: wordpress-ceres
+        image: wordpress:5.4-apache
+        ports:
+        - containerPort: 80
+        envFrom:
+        - secretRef:
+            name: wordpress-ceres
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "750m"
+        readinessProbe:
+          httpGet:
+            path: /?nocache
+            port: 80
+            httpHeaders:
+            - name: X-Forwarded-Proto
+              value: https
+            - name: X-Forwarded-Host
+              value: ceresterapiayformacion.com
+            - name: Host
+              value: ceresterapiayformacion.com
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /?nocache
+            port: 80
+            httpHeaders:
+            - name: X-Forwarded-Proto
+              value: https
+            - name: X-Forwarded-Host
+              value: ceresterapiayformacion.com
+            - name: Host
+              value: ceresterapiayformacion.com
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html
+      
+      volumes:
+      - name: wordpress-persistent-storage
+        persistentVolumeClaim:
+          claimName: wordpress-ceres
+      
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-maitri
+  namespace: wordpress
+  labels:
+    app: wordpress-maitri
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress-maitri
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: wordpress-maitri
+    spec:
+      initContainers:
+      - name: volume-permissions
+        image: busybox
+        command: ['sh', '-c', 'chown -R 33:33 /var/www/html && find /var/www/html -type d -exec chmod 755 {} \; && find /var/www/html -type f -exec chmod 644 {} \;']
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html
+      containers:
+      - name: wordpress-maitri
+        image: wordpress:5.4-apache
+        ports:
+        - containerPort: 80
+        envFrom:
+        - secretRef:
+            name: wordpress-maitri
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "750m"
+        readinessProbe:
+          httpGet: null
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet: null
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html
+      volumes:
+      - name: wordpress-persistent-storage
+        persistentVolumeClaim:
+          claimName: wordpress-maitri
