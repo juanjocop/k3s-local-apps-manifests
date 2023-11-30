@@ -15,6 +15,13 @@ spec:
       labels:
         app: home-assistant
     spec:
+      initContainers:
+      - name: volume-permissions
+        image: busybox
+        command: ["sh", "-c", "chown -R 1000:1000 /data"]
+        volumeMounts:
+        - mountPath: /data
+          name: config
       containers:
       - name: home-assistant
         image: homeassistant/home-assistant:stable
@@ -41,3 +48,12 @@ spec:
         hostPath:
           path: /etc/localtime
           type: File
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"

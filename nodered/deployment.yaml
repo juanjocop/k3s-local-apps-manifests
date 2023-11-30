@@ -52,3 +52,12 @@ spec:
         - name: node-red-claim
           persistentVolumeClaim:
             claimName: nodered2
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - master1

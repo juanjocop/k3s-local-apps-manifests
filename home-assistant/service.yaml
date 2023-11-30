@@ -38,20 +38,20 @@ spec:
 
 ---
 
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   labels:
-#     app: home-assistant
-#   name: home-assistant
-#   namespace: domotica
-# spec:
-#   ports:
-#     - name: "http"
-#       port: 8123
-#       protocol: TCP
-#       targetPort: 8123
-#   selector:
-#     app: home-assistant
-#   sessionAffinity: None
-#   type: LoadBalancer
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: home-assistant
+  name: home-assistant-loadbalancer
+  namespace: domotica
+spec:
+  ports:
+    - name: coiot
+      port: 5683
+      protocol: UDP
+      targetPort: 5683
+  selector:
+    app: home-assistant
+  sessionAffinity: None
+  type: LoadBalancer

@@ -78,6 +78,15 @@ spec:
         volumeMounts:
         - name: wordpress-persistent-storage
           mountPath: /var/www/html
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - master1
       
       volumes:
       - name: wordpress-persistent-storage
@@ -130,27 +139,45 @@ spec:
           limits:
             memory: "256Mi"
             cpu: "750m"
-        readinessProbe:
-          httpGet: null
-          tcpSocket:
-            port: 80
-          initialDelaySeconds: 10
-          periodSeconds: 30
-          timeoutSeconds: 10
-          successThreshold: 1
-          failureThreshold: 3
-        livenessProbe:
-          httpGet: null
-          tcpSocket:
-            port: 80
-          initialDelaySeconds: 30
-          periodSeconds: 60
-          timeoutSeconds: 10
-          successThreshold: 1
-          failureThreshold: 3
+        # readinessProbe:
+        #   httpGet:
+        #     path: /?nocache
+        #     port: 80
+        #     httpHeaders:
+        #     - name: X-Forwarded-Proto
+        #       value: https
+        #     - name: X-Forwarded-Host
+        #       value: asociacionmaitri.es
+        #     - name: Host
+        #       value: asociacionmaitri.es
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 30
+        #   timeoutSeconds: 10
+        #   successThreshold: 1
+        #   failureThreshold: 3
+        # livenessProbe:
+        #   httpGet:
+        #     path: /?nocache
+        #     port: 80
+        #     httpHeaders:
+        #     - name: X-Forwarded-Proto
+        #       value: https
+        #     - name: X-Forwarded-Host
+        #       value: asociacionmaitri.es
+        #     - name: Host
+        #       value: asociacionmaitri.es
         volumeMounts:
         - name: wordpress-persistent-storage
           mountPath: /var/www/html
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - master1
       volumes:
       - name: wordpress-persistent-storage
         persistentVolumeClaim:

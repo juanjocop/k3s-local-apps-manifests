@@ -80,6 +80,15 @@ spec:
         volumeMounts:
         - name: openvpn-config
           mountPath: /vpn
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - master1
 
       volumes:
       # - name: wg-config

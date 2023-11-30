@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: tmp-pod
-  namespace: domotica
+  namespace: wordpress
 spec:
   containers:
   - name: tmp-container
@@ -17,4 +17,4 @@ spec:
   volumes:
   - name: mi-volumen
     persistentVolumeClaim:
-      claimName: homeassistant2
+      claimName: wordpress-maitri

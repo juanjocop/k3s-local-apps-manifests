@@ -39,19 +39,34 @@ spec:
           mountPath: /var/lib/mysql
         livenessProbe:
           exec:
-            command: ["mariadb-admin", "ping", "-p${MYSQL_ROOT_PASSWORD}"]
+            command: 
+            - sh
+            - -c
+            - "mariadb-admin ping -u root -p${MYSQL_ROOT_PASSWORD}"
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
         readinessProbe:
           exec:
-            command: ["mariadb-admin", "ping", "-p${MYSQL_ROOT_PASSWORD}"]
+            command: 
+            - sh
+            - -c
+            - "mariadb-admin ping -u root -p${MYSQL_ROOT_PASSWORD}"
           initialDelaySeconds: 5
           periodSeconds: 10
           timeoutSeconds: 1
           successThreshold: 1
           failureThreshold: 3
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - master1
   volumeClaimTemplates:
   - metadata:
       name: mariadb-storage

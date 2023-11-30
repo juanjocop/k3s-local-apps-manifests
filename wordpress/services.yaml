@@ -27,7 +27,7 @@ metadata:
   namespace: wordpress
 spec:
   ports:
-    - name: http
+    - name: http-maitri
       port: 80
       protocol: TCP
       targetPort: 80
