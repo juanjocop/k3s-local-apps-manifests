@@ -2,11 +2,11 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: tmp-pod
-  namespace: wordpress
+  namespace: nextcloud
 spec:
   containers:
   - name: tmp-container
-    image: busybox
+    image: debian
     command:
       - sleep
       - "3600"
@@ -17,4 +17,4 @@ spec:
   volumes:
   - name: mi-volumen
     persistentVolumeClaim:
-      claimName: wordpress-maitri
+      claimName: nextcloud

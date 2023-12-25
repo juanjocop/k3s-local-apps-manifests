@@ -23,6 +23,12 @@ spec:
           mountPath: /config
         - name: bitcoin-storage
           mountPath: /bitcoin
+      - name: volume-permissions
+        image: busybox
+        command: ["sh", "-c", "chown -R 1000:1000 /data"]
+        volumeMounts:
+        - mountPath: /data
+          name: bitcoin-storage
       containers:
       - name: bitcoin-core
         image: juanjocop/bitcoin-core:0.1-arm64  # Reemplaza con el nombre de tu imagen
@@ -52,6 +58,19 @@ spec:
         volumeMounts:
         - name: bitcoin-storage
           mountPath: /root/.bitcoin
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - master1
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
       volumes:
       - name: bitcoin-storage
         persistentVolumeClaim:

@@ -48,6 +48,15 @@ spec:
           subPath: torrc
         - name: tor-data-volume
           mountPath: /var/lib/tor/bitcoin-service
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - master1
       volumes:
       - name: tor-config-volume
         configMap:

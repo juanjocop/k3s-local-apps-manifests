@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud
+  namespace: nextcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextcloud
+  template:
+    metadata:
+      labels:
+        app: nextcloud
+    spec:
+      # initContainers:
+      # - name: volume-permissions
+      #   image: busybox
+      #   command: ["sh", "-c", "chown -R www-data:www-data /data"]
+      #   volumeMounts:
+      #   - mountPath: /data
+      #     name: nextcloud-storage
+      containers:
+      #
+      # Nginx
+      #
+      - name: nginx
+        image: nginx:stable-alpine
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        volumeMounts:
+          - name: nginx-config
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
+          - name: nextcloud-storage
+            mountPath: /var/www/html
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "mkdir -p /var/www/html"]
+      #
+      # Nextcloud
+      #
+      - name: nextcloud
+        image: nextcloud:fpm-alpine
+        ports:
+        - containerPort: 9000
+        envFrom:
+        - secretRef:
+            name: nextcloud-secret # Reemplaza con el nombre de tu secret
+        volumeMounts:
+        - name: nextcloud-storage
+          mountPath: /var/www/html
+        - name: php-config
+          mountPath: /usr/local/etc/php/php.ini
+          subPath: php.ini
+        resources:
+          requests:
+            memory: "150Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Gi"
+            cpu: "1"
+        # livenessProbe:
+        #   httpGet:
+        #     path: /status.php
+        #     port: 80
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 20
+        #   timeoutSeconds: 7
+        # readinessProbe:
+        #   httpGet:
+        #     path: /status.php
+        #     port: 80
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 20
+        #   timeoutSeconds: 5
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - master1
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
+      volumes:
+      - name: nextcloud-storage
+        persistentVolumeClaim:
+          claimName: nextcloud
+      - name: php-config
+        configMap:
+          name: php-ini
+      - name: nginx-config
+        configMap:
+          name: nginx-conf
