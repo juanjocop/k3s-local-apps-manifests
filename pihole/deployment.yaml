@@ -18,7 +18,7 @@ spec:
         app: pihole
     spec:
       containers:
-        - image: pihole/pihole:lastest
+        - image: pihole/pihole:latest
           imagePullPolicy: Always
           name: pihole
           ports:
@@ -50,6 +50,19 @@ spec:
             - mountPath: /etc/dnsmasq.d
               subPath: dnsmasq
               name: pihole-claim
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - master1
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
       volumes:
         - name: pihole-claim
           persistentVolumeClaim:

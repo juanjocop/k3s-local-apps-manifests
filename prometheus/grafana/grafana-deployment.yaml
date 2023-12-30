@@ -37,6 +37,19 @@ spec:
         - mountPath: /var/lib/grafana
           name: grafana-storage
           readOnly: false
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - master1
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
       securityContext:
         fsGroup: 65534
         runAsNonRoot: true
