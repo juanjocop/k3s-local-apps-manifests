@@ -38,10 +38,10 @@ spec:
             name: wordpress-ceres
         resources:
           requests:
-            memory: "256Mi"
+            memory: "400Mi"
             cpu: "250m"
           limits:
-            memory: "512Mi"
+            memory: "600Mi"
             cpu: "750m"
         readinessProbe:
           httpGet:
@@ -138,7 +138,7 @@ spec:
             name: wordpress-maitri
         resources:
           requests:
-            memory: "256Mi"
+            memory: "300Mi"
             cpu: "250m"
           limits:
             memory: "512Mi"
