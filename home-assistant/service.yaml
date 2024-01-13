@@ -45,6 +45,8 @@ metadata:
     app: home-assistant
   name: home-assistant-loadbalancer
   namespace: domotica
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.11.5
 spec:
   ports:
     - name: coiot
