@@ -8,7 +8,11 @@ spec:
   retention: 7d
   resources:
     requests:
-      memory: 400Mi
+      memory: 2500Mi
+      cpu: "700m"
+    limits:
+      memory: 5Gi
+      cpu: "1500m"
   # nodeSelector:
   #   node-type: worker1
   securityContext:
@@ -26,15 +30,20 @@ spec:
       - node-exporter
       - kubelet
       - traefik
+  podMonitorSelector:
+    matchExpressions:
+    - key: name
+      operator: In
+      values:
+      - linkerd-controller
+      - linkerd-proxy
+      - linkerd-service-mirror
+  serviceMonitorNamespaceSelector: {}
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-          - key: kubernetes.io/hostname
-            operator: NotIn
-            values:
-            - master1
           - key: node-role.kubernetes.io/worker
             operator: In
             values:
