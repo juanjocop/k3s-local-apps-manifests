@@ -9,4 +9,4 @@ data:
     Log notice stdout
     ControlPort 9051
     HiddenServiceDir /var/lib/tor/bitcoin-service/
-    HiddenServicePort 8333 bitcoin-core-service:8333
+    HiddenServicePort 8333 192.168.50.139:8333
