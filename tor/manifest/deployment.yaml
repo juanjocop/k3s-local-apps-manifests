@@ -25,10 +25,10 @@ spec:
         image: juanjocop/tor:0.1
         resources:
           requests:
-            memory: "128Mi"
+            memory: "256Mi"
             cpu: "100m"
           limits:
-            memory: "256Mi"
+            memory: "512Mi"
             cpu: "200m"
         ports:
         - containerPort: 9050
@@ -53,10 +53,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: NotIn
+              - key: node-role.kubernetes.io/worker
+                operator: In
                 values:
-                - master1
+                - "true"
       volumes:
       - name: tor-config-volume
         configMap:
