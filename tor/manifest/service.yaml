@@ -11,3 +11,21 @@ spec:
       port: 9050
       targetPort: 9050
   type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tor-service-lb
+  namespace: bitcoin
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.11.6
+spec:
+  selector:
+    app: tor
+  ports:
+    - protocol: TCP
+      port: 9050
+      targetPort: 9050
+  type: LoadBalancer
