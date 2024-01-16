@@ -15,3 +15,25 @@ spec:
     app: mariadb
   sessionAffinity: None
   type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mariadb
+  name: mariadb-service-lb
+  namespace: wordpress
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.11.9
+spec:
+  ports:
+    - name: "3306"
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+  selector:
+    app: mariadb
+  sessionAffinity: None
+  type: LoadBalancer
