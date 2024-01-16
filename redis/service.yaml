@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: redis-service
-  namespace: nextcloud
+  namespace: cachedbs
 spec:
   type: ClusterIP
   ports:
@@ -19,7 +19,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: redis-service
-  namespace: nextcloud
+  namespace: cachedbs
   annotations:
     metallb.universe.tf/loadBalancerIPs: 192.168.11.8
 spec:
