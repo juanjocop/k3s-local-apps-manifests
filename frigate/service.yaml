@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frigate-service
+  namespace: frigate  
+  labels:
+    app: frigate
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.11.235
+spec:
+  selector:
+    app: frigate
+  ports:
+    - name: frigate
+      port: 5000
+      targetPort: 5000
+      protocol: TCP
+    - name: frigate-rtmp
+      port: 1935
+      targetPort: 1935
+      protocol: TCP
+  type: LoadBalancer

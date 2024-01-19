@@ -33,11 +33,11 @@ spec:
               protocol: TCP
           resources:
             requests:
-              memory: "512Mi"
+              memory: "800Mi"
               cpu: "100m"
             limits:
-              memory: "800Mi"
-              cpu: "500m"
+              memory: "1000Mi"
+              cpu: "400m"
           env:
             - name: TZ
               value: Europe/Madrid

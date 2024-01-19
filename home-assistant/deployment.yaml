@@ -29,11 +29,11 @@ spec:
           privileged: true
         resources:
           requests:
-            memory: "1500Mi"
-            cpu: "500m"
+            memory: "1700Mi"
+            cpu: "300m"
           limits:
             memory: "2Gi"
-            cpu: "1500m"
+            cpu: "1000m"
         volumeMounts:
         - name: config
           mountPath: /config
