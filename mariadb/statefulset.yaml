@@ -38,7 +38,7 @@ spec:
         - name: mariadb-storage
           mountPath: /var/lib/mysql
         - name: mariadb-50-cnf
-          mountPath: /etc/mysql/mariadb.conf.d/50-server.cnf
+          mountPath: /etc/mysql/mariadb.conf.d
           subPath: 50-server.cnf
         livenessProbe:
           exec:
