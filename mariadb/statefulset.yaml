@@ -37,6 +37,9 @@ spec:
         volumeMounts:
         - name: mariadb-storage
           mountPath: /var/lib/mysql
+        - name: mariadb-50-cnf
+          mountPath: /etc/mysql/mariadb.conf.d/50-server.cnf
+          subPath: 50-server.cnf
         livenessProbe:
           exec:
             command: 
@@ -71,6 +74,10 @@ spec:
                 operator: In
                 values:
                 - "true"
+      volumes:
+      - name: mariadb-50-cnf
+        configmap:
+          name: 50-server.cnf
   volumeClaimTemplates:
   - metadata:
       name: mariadb-storage
