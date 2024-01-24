@@ -31,7 +31,9 @@ data:
 
     # Instead of skip-networking the default is now to listen only on
     # localhost which is more compatible and is not less secure.
-    bind-address            = 0.0.0.0
+    # bind-address            = 0.0.0.0
+    skip-networking=0
+    skip-bind-address
 
     #
     # * Fine Tuning
