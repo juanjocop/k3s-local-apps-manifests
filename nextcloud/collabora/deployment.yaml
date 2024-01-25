@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: collabora
+  namespace: nextcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: collabora
+  template:
+    metadata:
+      labels:
+        app: collabora
+    spec:
+      containers:
+      - name: collabora
+        image: collabora/code:latest
+        ports:
+        - containerPort: 9980
+        resources:
+          limits:
+              cpu: "1800m"
+              memory: "2000Mi"
+          requests:
+              cpu: "1800m"
+              memory: "2000Mi"
+        envFrom:
+        - secretRef:
+            name: collabora-secret 
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
+              - key: node.kubernetes.io/performance
+                operator: In
+                values:
+                - "high"
