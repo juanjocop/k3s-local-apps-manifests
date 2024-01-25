@@ -5,6 +5,8 @@ metadata:
     app: wordpress-ceres
   name: wordpress-ceres-service
   namespace: wordpress
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.11.14
 spec:
   ports:
     - name: http-ceres
@@ -14,7 +16,7 @@ spec:
   selector:
     app: wordpress-ceres
   sessionAffinity: None
-  type: ClusterIP
+  type: LoadBalancer
 
 ---
 
