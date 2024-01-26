@@ -26,10 +26,10 @@ spec:
             secretKeyRef:
               name: redis-secret
               key: redis-password
-        volumeMounts:
-        - name: redis-config
-          mountPath: /conf/redis.conf
-          subPath: redis.conf
+        # volumeMounts:
+        # - name: redis-config
+        #   mountPath: /conf/redis.conf
+        #   subPath: redis.conf
         resources:
           requests:
             memory: "32Mi"
@@ -47,10 +47,10 @@ spec:
             port: 6379
           initialDelaySeconds: 5
           periodSeconds: 10
-      volumes:
-      - name: redis-config
-        configMap:
-          name: redis-configmap
+      # volumes:
+      # - name: redis-config
+      #   configMap:
+      #     name: redis-configmap
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

@@ -1,9 +1,11 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: redis-configmap
-  namespace: cachedbs
-data:
-  redis.conf: |-
-    bind 0.0.0.0
-    port 6379
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: redis-cluster-configmap
+#   namespace: cachedbs
+# data:
+#   redis.conf: |-
+#     appendonly yes
+#     protected-mode no
+#     bind 0.0.0.0
+#     port 6379
