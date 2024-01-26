@@ -123,7 +123,7 @@ spec:
   template:
     metadata:
       labels:
-        app: redis
+        app: redis-nextcloud
     spec:
       containers:
       - env:
@@ -149,12 +149,12 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
       restartPolicy: Always
-    affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node-role.kubernetes.io/worker
-                operator: In
-                values:
-                - "true"
+      affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: node-role.kubernetes.io/worker
+                  operator: In
+                  values:
+                  - "true"
