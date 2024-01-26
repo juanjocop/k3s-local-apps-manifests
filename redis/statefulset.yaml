@@ -19,13 +19,17 @@ spec:
         image: redis:7.0.14-alpine
         ports:
         - containerPort: 6379
-        args: [ "--requirepass", "$(REDIS_PASSWORD)" ]
+        args: [ "/conf/redis.conf", "--requirepass", "$(REDIS_PASSWORD)" ]
         env:
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
               name: redis-secret
               key: redis-password
+        volumeMounts:
+        - name: redis-config
+          mountPath: /conf/redis.conf
+          subPath: redis.conf
         resources:
           requests:
             memory: "32Mi"
@@ -43,6 +47,10 @@ spec:
             port: 6379
           initialDelaySeconds: 5
           periodSeconds: 10
+      volumes:
+      - name: redis-config
+        configMap:
+          name: redis-configmap
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
