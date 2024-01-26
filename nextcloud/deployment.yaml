@@ -4,6 +4,8 @@ metadata:
   name: nextcloud
   namespace: nextcloud
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -147,3 +149,12 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
       restartPolicy: Always
+    affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
