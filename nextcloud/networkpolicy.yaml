@@ -61,3 +61,26 @@ spec:
   policyTypes:
     - Ingress
 status: {}
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-redis-access-from-nextcloud
+  namespace: cachedbs
+spec:
+  podSelector:
+    matchLabels:
+      app: redis
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: nextcloud
+      podSelector:
+        matchLabels:
+          app: tmp-pod
+    ports:
+    - protocol: TCP
+      port: 6379
