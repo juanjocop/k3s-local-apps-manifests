@@ -29,58 +29,58 @@ spec:
     - Ingress
 status: {}
 
----
+# ---
 
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-nextcloud-to-redis
-  namespace: cachedbs
-spec:
-  ingress:
-    - from:
-        - namespaceSelector:
-            matchExpressions:
-              - key: kubernetes.io/metadata.name
-                operator: In
-                values:
-                  - nextcloud
-            matchLabels:
-              kubernetes.io/metadata.name: nextcloud
-          podSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - nextcloud
-            matchLabels:
-              app: nextcloud
-  podSelector:
-    matchLabels:
-      app: redis
-  policyTypes:
-    - Ingress
-status: {}
+# apiVersion: networking.k8s.io/v1
+# kind: NetworkPolicy
+# metadata:
+#   name: allow-nextcloud-to-redis
+#   namespace: cachedbs
+# spec:
+#   ingress:
+#     - from:
+#         - namespaceSelector:
+#             matchExpressions:
+#               - key: kubernetes.io/metadata.name
+#                 operator: In
+#                 values:
+#                   - nextcloud
+#             matchLabels:
+#               kubernetes.io/metadata.name: nextcloud
+#           podSelector:
+#             matchExpressions:
+#               - key: app
+#                 operator: In
+#                 values:
+#                   - nextcloud
+#             matchLabels:
+#               app: nextcloud
+#   podSelector:
+#     matchLabels:
+#       app: redis
+#   policyTypes:
+#     - Ingress
+# status: {}
 
----
+# ---
 
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-redis-access-from-nextcloud
-  namespace: cachedbs
-spec:
-  podSelector:
-    matchLabels:
-      app: redis
-  ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: nextcloud
-      podSelector:
-        matchLabels:
-          app: tmp-pod
-  policyTypes:
-    - Ingress
-status: {}
+# apiVersion: networking.k8s.io/v1
+# kind: NetworkPolicy
+# metadata:
+#   name: allow-redis-access-from-nextcloud
+#   namespace: cachedbs
+# spec:
+#   podSelector:
+#     matchLabels:
+#       app: redis
+#   ingress:
+#   - from:
+#     - namespaceSelector:
+#         matchLabels:
+#           name: nextcloud
+#       podSelector:
+#         matchLabels:
+#           app: tmp-pod
+#   policyTypes:
+#     - Ingress
+# status: {}

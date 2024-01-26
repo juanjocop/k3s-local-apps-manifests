@@ -13,6 +13,9 @@ spec:
     metadata:
       labels:
         app: redis
+      annotations:
+        config.linkerd.io/skip-outbound-ports: "6379"
+        config.linkerd.io/skip-inbound-ports: "6379"
     spec:
       containers:
       - name: redis

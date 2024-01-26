@@ -108,53 +108,53 @@ spec:
         configMap:
           name: nginx-conf
 
----
+# ---
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: redis
-  namespace: nextcloud
-spec:
-  selector:
-    matchLabels:
-      app: redis-nextcloud
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: redis-nextcloud
-    spec:
-      containers:
-      - env:
-        - name: TZ
-          value: Europe/Madrid
-        name: redis
-        image: redis:alpine
-        resources:
-          requests:
-            memory: "32Mi"
-            cpu: "50m"
-          limits:
-            memory: "64Mi"
-            cpu: "100m"
-        livenessProbe:
-          tcpSocket:
-            port: 6379
-          initialDelaySeconds: 15
-          periodSeconds: 20
-        readinessProbe:
-          tcpSocket:
-            port: 6379
-          initialDelaySeconds: 5
-          periodSeconds: 10
-      restartPolicy: Always
-      affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-              - matchExpressions:
-                - key: node-role.kubernetes.io/worker
-                  operator: In
-                  values:
-                  - "true"
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: redis
+#   namespace: nextcloud
+# spec:
+#   selector:
+#     matchLabels:
+#       app: redis-nextcloud
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         app: redis-nextcloud
+#     spec:
+#       containers:
+#       - env:
+#         - name: TZ
+#           value: Europe/Madrid
+#         name: redis
+#         image: redis:alpine
+#         resources:
+#           requests:
+#             memory: "32Mi"
+#             cpu: "50m"
+#           limits:
+#             memory: "64Mi"
+#             cpu: "100m"
+#         livenessProbe:
+#           tcpSocket:
+#             port: 6379
+#           initialDelaySeconds: 15
+#           periodSeconds: 20
+#         readinessProbe:
+#           tcpSocket:
+#             port: 6379
+#           initialDelaySeconds: 5
+#           periodSeconds: 10
+#       restartPolicy: Always
+#       affinity:
+#           nodeAffinity:
+#             requiredDuringSchedulingIgnoredDuringExecution:
+#               nodeSelectorTerms:
+#               - matchExpressions:
+#                 - key: node-role.kubernetes.io/worker
+#                   operator: In
+#                   values:
+#                   - "true"
