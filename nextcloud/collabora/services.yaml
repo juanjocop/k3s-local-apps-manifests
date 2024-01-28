@@ -6,7 +6,7 @@ metadata:
   name: collabora-service
   namespace: nextcloud
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 192.168.11.17
+    metallb.universe.tf/loadBalancerIPs: 192.168.11.23
 spec:
   ports:
     - port: 9980
