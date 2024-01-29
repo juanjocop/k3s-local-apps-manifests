@@ -248,7 +248,6 @@ data:
         server {
             server_name nextcloud.liontechsolution.com;
             client_max_body_size 512M;
-            include /etc/nginx/snippets/ssl-server.conf;
 
             location /.well-known/carddav { 
                 return 301 $scheme://$host/remote.php/dav;
