@@ -106,4 +106,4 @@ spec:
           name: php-ini
       - name: nginx-config
         configMap:
-          name: nginx-conf
+          name: nginx-conf-2
