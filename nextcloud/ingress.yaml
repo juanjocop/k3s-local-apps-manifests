@@ -8,7 +8,7 @@ metadata:
     # traefik.ingress.kubernetes.io/rewrite-target: /
     # traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    traefik.ingress.kubernetes.io/router.middlewares: "nextcloud-nextcloud-redirectregex@kubernetescrd,nextcloud-nextcloud-headers@kubernetescrd"
+    # traefik.ingress.kubernetes.io/router.middlewares: "nextcloud-nextcloud-redirectregex@kubernetescrd,nextcloud-nextcloud-headers@kubernetescrd"
 spec:
   tls:
    - hosts:
