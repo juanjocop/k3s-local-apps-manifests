@@ -257,7 +257,6 @@ data:
             }
 
             location / {
-                resolver           127.0.0.11 valid=37s;
                 set                $upstream nextcloud;
                 proxy_pass         http://$upstream:80;
                 proxy_set_header   Host $host;
