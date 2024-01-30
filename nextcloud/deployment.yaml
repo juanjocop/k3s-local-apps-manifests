@@ -6,7 +6,7 @@ metadata:
 spec:
   strategy:
     type: Recreate
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: nextcloud
@@ -23,35 +23,36 @@ spec:
       #   - mountPath: /data
       #     name: nextcloud-storage
       containers:
-      #
-      # Nginx
-      #
-      - name: nginx
-        image: nginx:stable-alpine
-        ports:
-        - containerPort: 80
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "100m"
-          limits:
-            memory: "128Mi"
-            cpu: "200m"
-        volumeMounts:
-          - name: nginx-config
-            mountPath: /etc/nginx/nginx.conf
-            subPath: nginx.conf
-          - name: nextcloud-storage
-            mountPath: /var/www/html
-        lifecycle:
-          postStart:
-            exec:
-              command: ["/bin/sh", "-c", "mkdir -p /var/www/html"]
+      # #
+      # # Nginx
+      # #
+      # - name: nginx
+      #   image: nginx:stable-alpine
+      #   ports:
+      #   - containerPort: 80
+      #   resources:
+      #     requests:
+      #       memory: "64Mi"
+      #       cpu: "100m"
+      #     limits:
+      #       memory: "128Mi"
+      #       cpu: "200m"
+      #   volumeMounts:
+      #     - name: nginx-config
+      #       mountPath: /etc/nginx/nginx.conf
+      #       subPath: nginx.conf
+      #     - name: nextcloud-storage
+      #       mountPath: /var/www/html
+      #   lifecycle:
+      #     postStart:
+      #       exec:
+      #         command: ["/bin/sh", "-c", "mkdir -p /var/www/html"]
       #
       # Nextcloud
       #
       - name: nextcloud
-        image: nextcloud:fpm-alpine
+        # image: nextcloud:fpm-alpine
+        image: nextcloud:27.1.6
         ports:
         - containerPort: 9000
         envFrom:
@@ -100,10 +101,10 @@ spec:
       volumes:
       - name: nextcloud-storage
         persistentVolumeClaim:
-          claimName: nextcloud
-      - name: php-config
-        configMap:
-          name: php-ini
-      - name: nginx-config
-        configMap:
-          name: nginx-conf
+          claimName: nextcloud2
+      # - name: php-config
+      #   configMap:
+      #     name: php-ini
+      # - name: nginx-config
+      #   configMap:
+      #     name: nginx-conf
