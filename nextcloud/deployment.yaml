@@ -101,7 +101,7 @@ spec:
       volumes:
       - name: nextcloud-storage
         persistentVolumeClaim:
-          claimName: nextcloud2
+          claimName: nextcloud3
       - name: php-config
         configMap:
           name: php-ini
