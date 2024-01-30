@@ -74,20 +74,20 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "1"
-        livenessProbe:
-          httpGet:
-            path: /status.php
-            port: 80
-          initialDelaySeconds: 30
-          periodSeconds: 20
-          timeoutSeconds: 7
-        readinessProbe:
-          httpGet:
-            path: /status.php
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 20
-          timeoutSeconds: 5
+        # livenessProbe:
+        #   httpGet:
+        #     path: /status.php
+        #     port: 80
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 20
+        #   timeoutSeconds: 7
+        # readinessProbe:
+        #   httpGet:
+        #     path: /status.php
+        #     port: 80
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 20
+        #   timeoutSeconds: 5
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
