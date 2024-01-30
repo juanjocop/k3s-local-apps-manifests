@@ -1,14 +1,14 @@
-# apiVersion: v1
-# kind: ConfigMap
-# metadata:
-#   name: php-ini
-#   namespace: nextcloud
-# data:
-#   php.ini: |
-#     [PHP]
-#     upload_max_filesize = 100M
-#     post_max_size = 100M
-#     max_execution_time = 200
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: php-ini
+  namespace: nextcloud
+data:
+  php.ini: |
+    [PHP]
+    upload_max_filesize = 100M
+    post_max_size = 100M
+    max_execution_time = 200
 
 # ---
 
