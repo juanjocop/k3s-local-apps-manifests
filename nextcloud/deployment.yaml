@@ -61,9 +61,12 @@ spec:
         volumeMounts:
         - name: nextcloud-storage
           mountPath: /var/www/html
-        - name: php-config
+        - name: nextcloud-config
           mountPath: /usr/local/etc/php/php.ini
           subPath: php.ini
+        - name: nextcloud-config
+          mountPath: /etc/apache2/sites-available/000-default.conf
+          subPath: 000-default.conf
         resources:
           requests:
             memory: "150Mi"
@@ -102,9 +105,9 @@ spec:
       - name: nextcloud-storage
         persistentVolumeClaim:
           claimName: nextcloud
-      - name: php-config
+      - name: nextcloud-config
         configMap:
-          name: php-ini
+          name: nextcloud-cm
       # - name: nginx-config
       #   configMap:
       #     name: nginx-conf
