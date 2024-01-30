@@ -9,6 +9,9 @@ data:
     upload_max_filesize = 100M
     post_max_size = 100M
     max_execution_time = 200
+    memory_limit = 512M
+    max_input_time = 120
+
 
 # ---
 
