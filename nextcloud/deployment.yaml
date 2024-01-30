@@ -102,9 +102,9 @@ spec:
       - name: nextcloud-storage
         persistentVolumeClaim:
           claimName: nextcloud2
-      # - name: php-config
-      #   configMap:
-      #     name: php-ini
+      - name: php-config
+        configMap:
+          name: php-ini
       # - name: nginx-config
       #   configMap:
       #     name: nginx-conf
