@@ -54,7 +54,7 @@ spec:
         # image: nextcloud:fpm-alpine
         image: nextcloud:27.1.6
         ports:
-        - containerPort: 9000
+        - containerPort: 80
         envFrom:
         - secretRef:
             name: nextcloud-secret # Reemplaza con el nombre de tu secret
