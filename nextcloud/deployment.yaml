@@ -57,9 +57,9 @@ spec:
         - name: nextcloud-config
           mountPath: /usr/local/etc/php/php.ini
           subPath: php.ini
-        # - name: nextcloud-config
-        #   mountPath: /etc/apache2/sites-available/000-default.conf
-        #   subPath: 000-default.conf
+        - name: nextcloud-config
+          mountPath: /etc/apache2/sites-available/000-default.conf
+          subPath: 000-default.conf
         resources:
           requests:
             memory: "300Mi"
@@ -123,6 +123,6 @@ spec:
       - name: nextcloud-config
         configMap:
           name: nextcloud-cm
-      # - name: nginx-config
-      #   configMap:
-      #     name: nginx-conf
+      - name: nginx-config
+        configMap:
+          name: nginx-conf

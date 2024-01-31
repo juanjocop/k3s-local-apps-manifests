@@ -42,7 +42,9 @@ data:
         #Include conf-available/serve-cgi-bin.conf
 
         Timeout 300
-        KeepAliveTimeout 5
+        KeepAlive On
+        KeepAliveTimeout 15
+
 
     </VirtualHost>
 
