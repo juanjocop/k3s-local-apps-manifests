@@ -15,13 +15,6 @@ spec:
       labels:
         app: nextcloud
     spec:
-      # initContainers:
-      # - name: volume-permissions
-      #   image: busybox
-      #   command: ["sh", "-c", "chown -R www-data:www-data /data"]
-      #   volumeMounts:
-      #   - mountPath: /data
-      #     name: nextcloud-storage
       containers:
       # #
       # # Nginx
@@ -88,6 +81,28 @@ spec:
         #   initialDelaySeconds: 5
         #   periodSeconds: 20
         #   timeoutSeconds: 5
+      #
+      # CRON
+      #
+      - name: nextcloud-cron
+        # image: nextcloud:fpm-alpine
+        image: nextcloud:28.0.1
+        command: ["/cron.sh"]
+        ports:
+        - containerPort: 90
+        envFrom:
+        - secretRef:
+            name: nextcloud-secret
+        volumeMounts:
+        - name: nextcloud-storage
+          mountPath: /var/www/html
+        resources:
+          requests:
+            memory: "300Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -97,10 +112,6 @@ spec:
                 operator: In
                 values:
                 - "true"
-              - key: node.kubernetes.io/performance
-                operator: In
-                values:
-                - "high"
       volumes:
       - name: nextcloud-storage
         persistentVolumeClaim:
