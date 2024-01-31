@@ -84,25 +84,25 @@ spec:
       #
       # CRON
       #
-      - name: nextcloud-cron
-        # image: nextcloud:fpm-alpine
-        image: nextcloud:28.0.1
-        command: ["/cron.sh"]
-        ports:
-        - containerPort: 90
-        envFrom:
-        - secretRef:
-            name: nextcloud-secret
-        volumeMounts:
-        - name: nextcloud-storage
-          mountPath: /var/www/html
-        resources:
-          requests:
-            memory: "100Mi"
-            cpu: "100m"
-          limits:
-            memory: "200Mi"
-            cpu: "200m"
+      # - name: nextcloud-cron
+      #   # image: nextcloud:fpm-alpine
+      #   image: nextcloud:28.0.1
+      #   command: ["/cron.sh"]
+      #   ports:
+      #   - containerPort: 90
+      #   envFrom:
+      #   - secretRef:
+      #       name: nextcloud-secret
+      #   volumeMounts:
+      #   - name: nextcloud-storage
+      #     mountPath: /var/www/html
+      #   resources:
+      #     requests:
+      #       memory: "100Mi"
+      #       cpu: "100m"
+      #     limits:
+      #       memory: "200Mi"
+      #       cpu: "200m"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
