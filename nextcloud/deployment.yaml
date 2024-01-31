@@ -88,7 +88,7 @@ spec:
         # image: nextcloud:fpm-alpine
         image: nextcloud:28.0.1
         command: ["/cron.sh"]
-        ports:
+        # ports:
         # - containerPort: 90
         envFrom:
         - secretRef:
