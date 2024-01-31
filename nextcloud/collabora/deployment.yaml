@@ -22,11 +22,11 @@ spec:
         - containerPort: 9980
         resources:
           limits:
-              cpu: "300m"
-              memory: "512Mi"
+              cpu: "400m"
+              memory: "1Gi"
           requests:
-              cpu: "100m"
-              memory: "256Mi"
+              cpu: "200m"
+              memory: "512Mi"
         envFrom:
         - secretRef:
             name: collabora-secret 
