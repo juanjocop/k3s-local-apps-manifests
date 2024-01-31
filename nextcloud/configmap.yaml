@@ -43,7 +43,7 @@ data:
 
         Timeout 300
         KeepAlive On
-        KeepAliveTimeout 30
+        KeepAliveTimeout 40
 
 
     </VirtualHost>
