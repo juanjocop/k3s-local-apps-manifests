@@ -22,14 +22,28 @@ spec:
         - containerPort: 9980
         resources:
           limits:
-              cpu: "1800m"
-              memory: "2000Mi"
+              cpu: "300m"
+              memory: "512i"
           requests:
-              cpu: "1800m"
-              memory: "2000Mi"
+              cpu: "100m"
+              memory: "256Mi"
         envFrom:
         - secretRef:
             name: collabora-secret 
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 20
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 20
+          timeoutSeconds: 10
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
