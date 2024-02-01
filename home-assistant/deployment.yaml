@@ -33,7 +33,7 @@ spec:
             cpu: "150m"
           limits:
             memory: "2Gi"
-            cpu: "5000m"
+            cpu: "500m"
         volumeMounts:
         - name: config
           mountPath: /config

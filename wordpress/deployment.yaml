@@ -38,11 +38,11 @@ spec:
             name: wordpress-ceres
         resources:
           requests:
-            memory: "512Mi"
+            memory: "600Mi"
             cpu: "200m"
           limits:
             memory: "700Mi"
-            cpu: "500m"
+            cpu: "400m"
         readinessProbe:
           httpGet:
             path: /?nocache
@@ -138,11 +138,11 @@ spec:
             name: wordpress-maitri
         resources:
           requests:
-            memory: "512Mi"
+            memory: "1Gi"
             cpu: "150m"
           limits:
-            memory: "600Mi"
-            cpu: "350m"
+            memory: "2Gi"
+            cpu: "650m"
         readinessProbe:
           httpGet:
             path: /?nocache
