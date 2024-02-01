@@ -31,11 +31,11 @@ spec:
           mountPath: /media/frigate
         resources:
             requests:
-              memory: "800Mi"
+              memory: "1Gi"
               cpu: "700m"
             limits:
               memory: "1700Mi"
-              cpu: "1300m"
+              cpu: "1100m"
         envFrom:
           - secretRef:
               name: frigate-password

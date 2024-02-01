@@ -63,10 +63,10 @@ spec:
         resources:
           requests:
             memory: "512Mi"
-            cpu: "400m"
+            cpu: "300m"
           limits:
             memory: "700Mi"
-            cpu: "800m"
+            cpu: "700m"
         livenessProbe:
           httpGet:
             path: /status.php
