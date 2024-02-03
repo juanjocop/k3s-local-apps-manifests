@@ -98,10 +98,10 @@ spec:
           mountPath: /var/www/html
         resources:
           requests:
-            memory: "30Mi"
+            memory: "90Mi"
             cpu: "30m"
           limits:
-            memory: "100Mi"
+            memory: "150Mi"
             cpu: "100m"
       affinity:
         nodeAffinity:
