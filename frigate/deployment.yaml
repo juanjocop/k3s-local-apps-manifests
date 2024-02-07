@@ -36,7 +36,6 @@ spec:
         volumeMounts:
         - name: frigate-config
           mountPath: /config
-          readOnly: true
         - name: frigate-media
           mountPath: /media/frigate
         resources:
