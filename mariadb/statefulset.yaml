@@ -27,16 +27,19 @@ spec:
                 key: password
         resources:
           requests:
-            memory: "256Mi"
+            memory: "600Mi"
             cpu: "250m"
           limits:
-            memory: "1Gi"
-            cpu: "1000m"
+            memory: "800Mi"
+            cpu: "500m"
         ports:
         - containerPort: 3306
         volumeMounts:
         - name: mariadb-storage
           mountPath: /var/lib/mysql
+        - name: mariadb-50-cnf
+          mountPath: /etc/mysql/mariadb.conf.d/50-server.cnf
+          subPath: 50-server.cnf
         livenessProbe:
           exec:
             command: 
@@ -63,14 +66,14 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: NotIn
-                values:
-                - master1
               - key: node-role.kubernetes.io/worker
                 operator: In
                 values:
                 - "true"
+      volumes:
+      - name: mariadb-50-cnf
+        configMap:
+          name: 50-server.cnf
   volumeClaimTemplates:
   - metadata:
       name: mariadb-storage

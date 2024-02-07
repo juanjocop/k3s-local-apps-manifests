@@ -2,9 +2,28 @@ apiVersion: v1
 kind: Service
 metadata:
   name: redis-service
-  namespace: nextcloud
+  namespace: cachedbs
 spec:
   type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: 6379
+      protocol: TCP
+      name: redis
+  selector:
+    app: redis
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service-lb
+  namespace: cachedbs
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.11.8
+spec:
+  type: LoadBalancer
   ports:
     - port: 6379
       targetPort: 6379

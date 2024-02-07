@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: redis
-  namespace: nextcloud
+  namespace: cachedbs
 spec:
   serviceName: "redis"
   replicas: 1
@@ -13,6 +13,9 @@ spec:
     metadata:
       labels:
         app: redis
+      annotations:
+        config.linkerd.io/skip-outbound-ports: "6379"
+        config.linkerd.io/skip-inbound-ports: "6379"
     spec:
       containers:
       - name: redis
@@ -26,13 +29,17 @@ spec:
             secretKeyRef:
               name: redis-secret
               key: redis-password
+        # volumeMounts:
+        # - name: redis-config
+        #   mountPath: /conf/redis.conf
+        #   subPath: redis.conf
         resources:
           requests:
+            memory: "32Mi"
+            cpu: "50m"
+          limits:
             memory: "64Mi"
             cpu: "100m"
-          limits:
-            memory: "128Mi"
-            cpu: "200m"
         livenessProbe:
           tcpSocket:
             port: 6379
@@ -43,3 +50,16 @@ spec:
             port: 6379
           initialDelaySeconds: 5
           periodSeconds: 10
+      # volumes:
+      # - name: redis-config
+      #   configMap:
+      #     name: redis-configmap
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
