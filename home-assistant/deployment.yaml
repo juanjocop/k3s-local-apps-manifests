@@ -29,10 +29,10 @@ spec:
           privileged: true
         resources:
           requests:
-            memory: "1700Mi"
+            memory: "2Gi"
             cpu: "150m"
           limits:
-            memory: "2Gi"
+            memory: "3Gi"
             cpu: "500m"
         volumeMounts:
         - name: config
