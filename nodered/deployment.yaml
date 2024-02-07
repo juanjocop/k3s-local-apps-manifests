@@ -51,7 +51,7 @@ spec:
       volumes:
         - name: node-red-claim
           persistentVolumeClaim:
-            claimName: nodered2
+            claimName: nodered
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
