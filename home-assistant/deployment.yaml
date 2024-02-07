@@ -30,9 +30,9 @@ spec:
         resources:
           requests:
             memory: "1500Mi"
-            cpu: "500m"
+            cpu: "1Gi"
           limits:
-            memory: "2Gi"
+            memory: "3Gi"
             cpu: "1500m"
         volumeMounts:
         - name: config
