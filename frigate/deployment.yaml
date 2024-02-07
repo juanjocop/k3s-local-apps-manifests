@@ -18,6 +18,7 @@ spec:
       containers:
       - name: frigate
         image: ghcr.io/blakeblackshear/frigate:stable
+        imagePullPolicy: Always
         ports:
         - name: frigate
           containerPort: 5000
