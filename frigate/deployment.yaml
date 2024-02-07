@@ -63,19 +63,9 @@ spec:
                 values:
                 - "high"
       volumes:
-      # - name: frigate-media
-      #   persistentVolumeClaim:
-      #     claimName: frigate-media
+      - name: frigate-media
+        persistentVolumeClaim:
+          claimName: frigate-media
       - name: frigate-config
         secret:
           secretName: frigate-config
-
-  volumeClaimTemplates:
-  - metadata:
-      name: frigate-media
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "longhorn" # Asegúrate de que esto coincida con el nombre de tu StorageClass de Longhorn
-      resources:
-        requests:
-          storage: 2Gi
