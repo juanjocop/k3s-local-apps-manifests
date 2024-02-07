@@ -6,6 +6,8 @@ metadata:
     app: frigate
   namespace: frigate
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -15,6 +17,13 @@ spec:
       labels:
         app: frigate
     spec:
+      # initContainers:
+      # - name: volume-permissions
+      #   image: busybox
+      #   command: ["sh", "-c", "chown -R 1000:1000 /media"]
+      #   volumeMounts:
+      #   - mountPath: /media
+      #     name: frigate-media
       containers:
       - name: frigate
         image: ghcr.io/blakeblackshear/frigate:stable
@@ -54,9 +63,19 @@ spec:
                 values:
                 - "high"
       volumes:
-      - name: frigate-media
-        persistentVolumeClaim:
-          claimName: frigate-media
+      # - name: frigate-media
+      #   persistentVolumeClaim:
+      #     claimName: frigate-media
       - name: frigate-config
         secret:
           secretName: frigate-config
+
+  volumeClaimTemplates:
+  - metadata:
+      name: frigate-media
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "longhorn" # Asegúrate de que esto coincida con el nombre de tu StorageClass de Longhorn
+      resources:
+        requests:
+          storage: 2Gi
