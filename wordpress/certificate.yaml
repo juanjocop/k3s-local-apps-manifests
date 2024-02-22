@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-maitri-ingress-http
+  namespace: wordpress
+spec:
+  secretName: tls-maitri-ingress-http
+  issuerRef:
+    # Referencia a tu ClusterIssuer o Issuer
+    kind: ClusterIssuer # o "Issuer" si estás usando un Issuer en el mismo namespace
+    name: "letsencrypt-prod" # El nombre de tu ClusterIssuer o Issuer
+  dnsNames:
+    - "asociacionmaitri.es" # El dominio para el cual estás solicitando el certificado
+  # Opcional: Configura las propiedades adicionales del certificado
+  # duración del certificado, claves de algoritmo, etc.
