@@ -43,10 +43,12 @@ kind: Service
 metadata:
   labels:
     app: home-assistant
+    l2loadbalancer: enable
   name: home-assistant-loadbalancer
   namespace: domotica
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 192.168.11.5
+    # metallb.universe.tf/loadBalancerIPs: 192.168.11.5
+    lbipam.cilium.io/ips: 192.168.11.5
 spec:
   ports:
     - name: coiot
@@ -56,4 +58,5 @@ spec:
   selector:
     app: home-assistant
   sessionAffinity: None
+  loadBalancerIP: 192.168.11.5
   type: LoadBalancer
