@@ -2,11 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frigate-service
-  namespace: frigate  
+  namespace: domotica  
   labels:
     app: frigate
+    l2loadbalancer: enable
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 192.168.11.235
+    #metallb.universe.tf/loadBalancerIPs: 192.168.11.235
+    lbipam.cilium.io/ips: 192.168.11.235
 spec:
   selector:
     app: frigate
