@@ -3,10 +3,12 @@ kind: Service
 metadata:
   labels:
     app: wordpress-ceres
+    l2loadbalancer: enable
   name: wordpress-ceres-service
   namespace: wordpress
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 192.168.11.14
+    # metallb.universe.tf/loadBalancerIPs: 192.168.11.14
+    lbipam.cilium.io/ips: 192.168.11.14
 spec:
   ports:
     - name: http-ceres

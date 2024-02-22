@@ -1,0 +1,28 @@
+## example policy
+
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: wordpress-gateway-policy
+spec:
+  serviceSelector:
+    matchLabels:
+      io.cilium.gateway/owning-gateway: wordpress-gateway
+  nodeSelector:
+    matchExpressions:
+      # - key: node-role.kubernetes.io/worker
+      #   operator: Exists
+        # values:
+        # - "true"
+      # - key: node.kubernetes.io/local
+      #   operator: Exists
+        # values:
+        # - "true"
+      - key: node-role.kubernetes.io/control-plane
+        operator: DoesNotExist
+        # values:
+        # - "true"
+  interfaces:
+  - ^eth[0-9]+
+  externalIPs: true
+  loadBalancerIPs: true

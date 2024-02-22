@@ -83,14 +83,14 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: NotIn
-                values:
-                - master1
               - key: node-role.kubernetes.io/worker
                 operator: In
                 values:
                 - "true"
+              # - key: node.kubernetes.io/local
+              #   operator: In
+              #   values:
+              #   - "true"
       
       volumes:
       - name: wordpress-persistent-storage
@@ -183,14 +183,14 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: NotIn
-                values:
-                - master1
               - key: node-role.kubernetes.io/worker
                 operator: In
                 values:
                 - "true"
+              # - key: node.kubernetes.io/local
+              #   operator: In
+              #   values:
+              #   - "true"
       volumes:
       - name: wordpress-persistent-storage
         persistentVolumeClaim:
