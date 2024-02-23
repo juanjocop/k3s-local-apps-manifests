@@ -13,8 +13,9 @@ spec:
     limits:
       memory: 5Gi
       cpu: "1500m"
-  # nodeSelector:
-  #   node-type: worker1
+  nodeSelector:
+    node.kubernetes.io/local: "true"
+    node-role.kubernetes.io/worker: "true"
   securityContext:
     fsGroup: 2000
     runAsNonRoot: true
@@ -29,7 +30,6 @@ spec:
       - kube-state-metrics
       - node-exporter
       - kubelet
-      - traefik
   podMonitorSelector:
     matchExpressions:
     - key: name
@@ -48,6 +48,8 @@ spec:
             operator: In
             values:
             - "true"
+          - key: node.kubernetes.io/local
+            operator: Exists
   storage:
     volumeClaimTemplate:
       spec:
