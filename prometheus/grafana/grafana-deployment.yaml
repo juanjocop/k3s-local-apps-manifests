@@ -42,10 +42,8 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: NotIn
-                values:
-                - master1
+              - key: node.kubernetes.io/local
+                operator: Exists
               - key: node-role.kubernetes.io/worker
                 operator: In
                 values:
