@@ -1,33 +1,33 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-nextcloud-to-mariadb
-  namespace: wordpress
-spec:
-  ingress:
-    - from:
-        - namespaceSelector:
-            matchExpressions:
-              - key: kubernetes.io/metadata.name
-                operator: In
-                values:
-                  - nextcloud
-            matchLabels:
-              kubernetes.io/metadata.name: nextcloud
-          podSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - nextcloud
-            matchLabels:
-              app: nextcloud
-  podSelector:
-    matchLabels:
-      app: mariadb
-  policyTypes:
-    - Ingress
-status: {}
+# apiVersion: networking.k8s.io/v1
+# kind: NetworkPolicy
+# metadata:
+#   name: allow-nextcloud-to-mariadb
+#   namespace: wordpress
+# spec:
+#   ingress:
+#     - from:
+#         - namespaceSelector:
+#             matchExpressions:
+#               - key: kubernetes.io/metadata.name
+#                 operator: In
+#                 values:
+#                   - nextcloud
+#             matchLabels:
+#               kubernetes.io/metadata.name: nextcloud
+#           podSelector:
+#             matchExpressions:
+#               - key: app
+#                 operator: In
+#                 values:
+#                   - nextcloud
+#             matchLabels:
+#               app: nextcloud
+#   podSelector:
+#     matchLabels:
+#       app: mariadb
+#   policyTypes:
+#     - Ingress
+# status: {}
 
 # ---
 

@@ -53,7 +53,5 @@ spec:
                 operator: In
                 values:
                 - "true"
-              - key: node.kubernetes.io/performance
-                operator: In
-                values:
-                - "high"
+              - key: node.kubernetes.io/remote
+                operator: Exists

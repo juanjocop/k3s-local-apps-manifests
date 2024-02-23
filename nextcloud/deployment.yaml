@@ -16,36 +16,12 @@ spec:
         app: nextcloud
     spec:
       containers:
-      # #
-      # # Nginx
-      # #
-      # - name: nginx
-      #   image: nginx:stable-alpine
-      #   ports:
-      #   - containerPort: 80
-      #   resources:
-      #     requests:
-      #       memory: "64Mi"
-      #       cpu: "100m"
-      #     limits:
-      #       memory: "128Mi"
-      #       cpu: "200m"
-      #   volumeMounts:
-      #     - name: nginx-config
-      #       mountPath: /etc/nginx/nginx.conf
-      #       subPath: nginx.conf
-      #     - name: nextcloud-storage
-      #       mountPath: /var/www/html
-      #   lifecycle:
-      #     postStart:
-      #       exec:
-      #         command: ["/bin/sh", "-c", "mkdir -p /var/www/html"]
       #
       # Nextcloud
       #
       - name: nextcloud
         # image: nextcloud:fpm-alpine
-        image: nextcloud:28.0.1
+        image: nextcloud:28.0.2
         ports:
         - containerPort: 80
         envFrom:
@@ -86,7 +62,7 @@ spec:
       #
       - name: nextcloud-cron
         # image: nextcloud:fpm-alpine
-        image: nextcloud:28.0.1
+        image: nextcloud:28.0.2
         command: ["/cron.sh"]
         # ports:
         # - containerPort: 90
@@ -112,10 +88,8 @@ spec:
                 operator: In
                 values:
                 - "true"
-              - key: node.kubernetes.io/performance
-                operator: In
-                values:
-                - "high"
+              - key: node.kubernetes.io/remote
+                operator: Exists
       volumes:
       - name: nextcloud-storage
         persistentVolumeClaim:
@@ -123,6 +97,6 @@ spec:
       - name: nextcloud-config
         configMap:
           name: nextcloud-cm
-      - name: nginx-config
-        configMap:
-          name: nginx-conf
+      # - name: nginx-config
+      #   configMap:
+      #     name: nginx-conf
