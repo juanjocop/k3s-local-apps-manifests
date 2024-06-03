@@ -42,6 +42,8 @@ spec:
           readOnly: true
         - name: frigate-media
           mountPath: /media/frigate
+        - name: usb
+          mountPath: /dev/bus/usb
         resources:
             requests:
               memory: "1Gi"
@@ -55,8 +57,8 @@ spec:
         devices:
         - containerPath: /dev/bus/usb
           hostPath: /dev/bus/usb
-        securityContext:
-          privileged: true
+        # securityContext:
+        #   privileged: true
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
