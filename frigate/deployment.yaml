@@ -54,9 +54,9 @@ spec:
         envFrom:
           - secretRef:
               name: frigate-password
-        devices:
-        - containerPath: /dev/bus/usb
-          hostPath: /dev/bus/usb
+        # devices:
+        # - containerPath: /dev/bus/usb
+        #   hostPath: /dev/bus/usb
         # securityContext:
         #   privileged: true
       affinity:
