@@ -27,8 +27,11 @@ kind: Service
 metadata:
   labels:
     app: wordpress-maitri
+    l2loadbalancer: enable
   name: wordpress-maitri-service
   namespace: wordpress
+  annotations:
+    lbipam.cilium.io/ips: 192.168.11.15
 spec:
   ports:
     - name: http-maitri
@@ -38,7 +41,7 @@ spec:
   selector:
     app: wordpress-maitri
   sessionAffinity: None
-  type: ClusterIP
+  type: LoadBalancer
 
 # ---
 
