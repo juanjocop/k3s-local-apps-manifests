@@ -62,29 +62,29 @@
 #               number: 80
 
 
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ceres-ingress
-  namespace: wordpress
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-    ingress.cilium.io/service-type: LoadBalancer
-    ingress.cilium.io/loadbalancer-mode: shared
-spec:
-  ingressClassName: cilium
-  rules:
-  - host: ceresterapiayformacion.com
-    http:
-      paths:
-      - backend:
-          service:
-            name: wordpress-ceres-service
-            port:
-              number: 80
-        path: /
-        pathType: Prefix
-  tls:
-  - hosts:
-    - ceresterapiayformacion.com
-    secretName: ceres-ingress-cert
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: ceres-ingress
+#   namespace: wordpress
+#   annotations:
+#     cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+#     ingress.cilium.io/service-type: LoadBalancer
+#     ingress.cilium.io/loadbalancer-mode: shared
+# spec:
+#   ingressClassName: cilium
+#   rules:
+#   - host: ceresterapiayformacion.com
+#     http:
+#       paths:
+#       - backend:
+#           service:
+#             name: wordpress-ceres-service
+#             port:
+#               number: 80
+#         path: /
+#         pathType: Prefix
+#   tls:
+#   - hosts:
+#     - ceresterapiayformacion.com
+#     secretName: ceres-ingress-cert

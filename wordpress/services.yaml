@@ -19,7 +19,7 @@ spec:
   selector:
     app: wordpress-ceres
   sessionAffinity: None
-  type: ClusterIP
+  type: LoadBalancer
 
 ---
 
@@ -43,7 +43,7 @@ spec:
   selector:
     app: wordpress-maitri
   sessionAffinity: None
-  type: ClusterIP
+  type: LoadBalancer
 
 # ---
 
