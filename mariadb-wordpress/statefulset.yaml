@@ -76,7 +76,7 @@ spec:
           name: 50-server.cnf
   volumeClaimTemplates:
   - metadata:
-      name: mariadb-storage
+      name: mariadb-wordpress
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: "longhorn" # Asegúrate de que esto coincida con el nombre de tu StorageClass de Longhorn
