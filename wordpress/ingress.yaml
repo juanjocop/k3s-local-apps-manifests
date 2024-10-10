@@ -69,6 +69,7 @@ metadata:
   namespace: wordpress
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-staging
+    ingress.cilium.io/service-type: LoadBalancer
 spec:
   ingressClassName: cilium
   rules:
