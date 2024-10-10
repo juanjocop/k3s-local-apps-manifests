@@ -68,7 +68,7 @@ metadata:
   name: ceres-ingress
   namespace: wordpress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging-dns
+    cert-manager.io/cluster-issuer: letsencrypt-prod-dns
     ingress.cilium.io/service-type: LoadBalancer
     ingress.cilium.io/loadbalancer-mode: shared
 spec:
