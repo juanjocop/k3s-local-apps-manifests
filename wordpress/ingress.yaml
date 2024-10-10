@@ -87,4 +87,4 @@ spec:
   tls:
   - hosts:
     - ceresterapiayformacion.com
-    secretName: ceres-ingress-cert
+    secretName: ceres-wordpress-ingress-cert
