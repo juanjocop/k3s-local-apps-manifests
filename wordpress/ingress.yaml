@@ -67,6 +67,8 @@ kind: Ingress
 metadata:
   name: ceres-ingress
   namespace: wordpress
+  labels:
+    bgp: blue
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-staging
     ingress.cilium.io/service-type: LoadBalancer
