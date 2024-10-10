@@ -67,6 +67,8 @@ kind: Ingress
 metadata:
   name: ceres-ingress
   namespace: wordpress
+annotations:
+  cert-manager.io/issuer: ca-issuer
 spec:
   ingressClassName: cilium
   rules:
