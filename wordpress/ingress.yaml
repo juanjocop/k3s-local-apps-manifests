@@ -68,7 +68,7 @@ metadata:
   name: ceres-ingress
   namespace: wordpress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-staging-dns
     ingress.cilium.io/service-type: LoadBalancer
     ingress.cilium.io/loadbalancer-mode: shared
 spec:
@@ -87,4 +87,4 @@ spec:
   tls:
   - hosts:
     - ceresterapiayformacion.com
-    secretName: ceres-wordpress-ingress-cert
+    secretName: ceres-ingress-cert
