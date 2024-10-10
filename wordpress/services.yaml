@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: wordpress-ceres
-    # bgp: blue
+    bgp: blue
     # l2loadbalancer: enable
   name: wordpress-ceres-service
   namespace: wordpress
@@ -28,7 +28,7 @@ kind: Service
 metadata:
   labels:
     app: wordpress-maitri
-    # bgp: blue
+    bgp: blue
     # l2loadbalancer: enable
   name: wordpress-maitri-service
   namespace: wordpress
