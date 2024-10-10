@@ -3,12 +3,13 @@ kind: Service
 metadata:
   labels:
     app: wordpress-ceres
-    l2loadbalancer: enable
+    # bgp: blue
+    # l2loadbalancer: enable
   name: wordpress-ceres-service
   namespace: wordpress
-  annotations:
+  # annotations:
     # metallb.universe.tf/loadBalancerIPs: 192.168.11.14
-    lbipam.cilium.io/ips: 192.168.11.14
+    # lbipam.cilium.io/ips: 192.168.11.14
 spec:
   ports:
     - name: http-ceres
@@ -18,7 +19,7 @@ spec:
   selector:
     app: wordpress-ceres
   sessionAffinity: None
-  type: LoadBalancer
+  type: ClusterIP
 
 ---
 
@@ -27,11 +28,12 @@ kind: Service
 metadata:
   labels:
     app: wordpress-maitri
-    l2loadbalancer: enable
+    # bgp: blue
+    # l2loadbalancer: enable
   name: wordpress-maitri-service
   namespace: wordpress
-  annotations:
-    lbipam.cilium.io/ips: 192.168.11.15
+  # annotations:
+  #   lbipam.cilium.io/ips: 192.168.11.15
 spec:
   ports:
     - name: http-maitri
@@ -41,7 +43,7 @@ spec:
   selector:
     app: wordpress-maitri
   sessionAffinity: None
-  type: LoadBalancer
+  type: ClusterIP
 
 # ---
 
