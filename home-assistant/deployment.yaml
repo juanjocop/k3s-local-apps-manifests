@@ -49,12 +49,16 @@ spec:
         hostPath:
           path: /etc/localtime
           type: File
-      # affinity:
-      #   nodeAffinity:
-      #     requiredDuringSchedulingIgnoredDuringExecution:
-      #       nodeSelectorTerms:
-      #       - matchExpressions:
-      #         - key: node-role.kubernetes.io/worker
-      #           operator: In
-      #           values:
-      #           - "true"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
+              - key: node.kubernetes.io/performance
+                operator: NotIn
+                values:
+                - "low"
