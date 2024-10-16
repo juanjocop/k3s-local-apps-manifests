@@ -44,17 +44,17 @@ spec:
       volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: homeassistant2
+          claimName: homeassistant
       - name: localtime
         hostPath:
           path: /etc/localtime
           type: File
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node-role.kubernetes.io/worker
-                operator: In
-                values:
-                - "true"
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #       - matchExpressions:
+      #         - key: node-role.kubernetes.io/worker
+      #           operator: In
+      #           values:
+      #           - "true"

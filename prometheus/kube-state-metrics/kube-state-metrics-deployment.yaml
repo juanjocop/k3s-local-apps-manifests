@@ -41,10 +41,10 @@ spec:
         resources:
           limits:
             cpu: 20m
-            memory: 100Mi
+            memory: 40Mi
           requests:
             cpu: 10m
-            memory: 50Mi
+            memory: 20Mi
         readinessProbe:
           httpGet:
             path: /
@@ -61,12 +61,3 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
       serviceAccountName: kube-state-metrics
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node-role.kubernetes.io/worker
-                operator: In
-                values:
-                - "true"

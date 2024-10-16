@@ -8,13 +8,8 @@ spec:
   retention: 7d
   resources:
     requests:
-      memory: 2500Mi
-      cpu: "700m"
-    limits:
-      memory: 5Gi
-      cpu: "1500m"
+      memory: 400Mi
   nodeSelector:
-    node.kubernetes.io/local: "true"
     node-role.kubernetes.io/worker: "true"
   securityContext:
     fsGroup: 2000
@@ -30,26 +25,6 @@ spec:
       - kube-state-metrics
       - node-exporter
       - kubelet
-  podMonitorSelector:
-    matchExpressions:
-    - key: name
-      operator: In
-      values:
-      - linkerd-controller
-      - linkerd-proxy
-      - linkerd-service-mirror
-  serviceMonitorNamespaceSelector: {}
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/worker
-            operator: In
-            values:
-            - "true"
-          - key: node.kubernetes.io/local
-            operator: Exists
   storage:
     volumeClaimTemplate:
       spec:
@@ -58,4 +33,4 @@ spec:
         storageClassName: longhorn
         resources:
           requests:
-            storage: 40Gi
+            storage: 20Gi

@@ -4,9 +4,10 @@ metadata:
   name: prometheus-external
   namespace: monitoring
   labels:
-    l2loadbalancer: enable
-  annotations:
-    lbipam.cilium.io/ips: 192.168.11.8
+    # l2loadbalancer: enable
+    bgp: blue
+  # annotations:
+  #   lbipam.cilium.io/ips: 192.168.11.8
 spec:
   selector:
     prometheus: prometheus-persistant

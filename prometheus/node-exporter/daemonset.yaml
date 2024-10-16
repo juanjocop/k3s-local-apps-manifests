@@ -69,11 +69,11 @@ spec:
           name: https
         resources:
           limits:
-            cpu: 80m
-            memory: 60Mi
-          requests:
-            cpu: 40m
+            cpu: 20m
             memory: 40Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi
         securityContext:
           runAsGroup: 65532
           runAsNonRoot: true

@@ -13,4 +13,26 @@ spec:
     solvers:
     - http01:
         ingress:
-          class: traefik # Asegúrate de cambiar esto por el ingress controller que estés utilizando
+          class: cilium # Asegúrate de cambiar esto por el ingress controller que estés utilizando
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod-dns
+spec:
+  acme:
+    # La URL de producción de Let's Encrypt
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: juanjocop@gmail.com
+    privateKeySecretRef:
+      # Nombre del secret donde se almacenará la llave privada de la cuenta de ACME
+      name: letsencrypt-prod
+    solvers:
+    - dns01:
+        cloudflare:
+          email: juanjocop@gmail.com
+          apiTokenSecretRef:
+            name: cloudflare-api-secret
+            key: CF_API_TOKEN

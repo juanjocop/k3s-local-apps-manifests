@@ -29,25 +29,16 @@ spec:
         resources:
           limits:
             cpu: 200m
-            memory: 512Mi
+            memory: 200Mi
           requests:
             cpu: 100m
-            memory: 256Mi
+            memory: 100Mi
         volumeMounts:
         - mountPath: /var/lib/grafana
           name: grafana-storage
           readOnly: false
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node.kubernetes.io/local
-                operator: Exists
-              - key: node-role.kubernetes.io/worker
-                operator: In
-                values:
-                - "true"
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
       securityContext:
         fsGroup: 65534
         runAsNonRoot: true

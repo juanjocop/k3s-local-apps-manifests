@@ -51,13 +51,13 @@ spec:
       volumes:
         - name: node-red-claim
           persistentVolumeClaim:
-            claimName: nodered3
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node-role.kubernetes.io/worker
-                operator: In
-                values:
-                - "true"
+            claimName: nodered
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #       - matchExpressions:
+      #         - key: node-role.kubernetes.io/worker
+      #           operator: In
+      #           values:
+      #           - "true"

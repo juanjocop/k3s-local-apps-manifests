@@ -36,10 +36,10 @@ spec:
         volumeMounts:
         - name: frigate-config
           mountPath: /config
-        - name: frigate-secret
-          mountPath: /config/config.yaml
-          subPath: config.yaml
-          readOnly: true
+        # - name: frigate-secret
+        #   mountPath: /config/config.yaml
+        #   subPath: config.yaml
+        #   readOnly: true
         - name: frigate-media
           mountPath: /media/frigate
         - name: usb
@@ -73,9 +73,9 @@ spec:
       - name: frigate-media
         persistentVolumeClaim:
           claimName: frigate-media
-      - name: frigate-secret
-        secret:
-          secretName: frigate-config
+      # - name: frigate-secret
+      #   secret:
+      #     secretName: frigate-config
       - name: frigate-config
         persistentVolumeClaim:
           claimName: frigate-config
