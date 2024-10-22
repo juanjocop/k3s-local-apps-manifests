@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mariadb
+  namespace: generic
+spec:
+  serviceName: "mariadb"
+  replicas: 1
+  updateStrategy:
+        type: RollingUpdate
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: mariadb
+        image: mariadb:latest
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mariadb-secret
+                key: password
+        resources:
+          requests:
+            memory: "600Mi"
+            cpu: "250m"
+          limits:
+            memory: "800Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mariadb-generic-storage
+          mountPath: /var/lib/mysql
+        # - name: mariadb-50-cnf
+        #   mountPath: /etc/mysql/mariadb.conf.d/50-server.cnf
+        #   subPath: 50-server.cnf
+        livenessProbe:
+          exec:
+            command: 
+            - sh
+            - -c
+            - "mariadb-admin ping -u root -p${MYSQL_ROOT_PASSWORD}"
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command: 
+            - sh
+            - -c
+            - "mariadb-admin ping -u root -p${MYSQL_ROOT_PASSWORD}"
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
+      # volumes:
+      # - name: mariadb-50-cnf
+      #   configMap:
+      #     name: 50-server.cnf
+  volumeClaimTemplates:
+  - metadata:
+      name: mariadb-generic-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "longhorn" # Asegúrate de que esto coincida con el nombre de tu StorageClass de Longhorn
+      resources:
+        requests:
+          storage: 1Gi
+
