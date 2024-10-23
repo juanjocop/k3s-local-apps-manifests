@@ -4,7 +4,7 @@ metadata:
   labels:
     app: pihole
   name: pihole
-  namespace: pihole
+  namespace: generic
 spec:
   replicas: 1
   selector:
