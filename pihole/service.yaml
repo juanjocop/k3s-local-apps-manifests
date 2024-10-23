@@ -25,4 +25,4 @@ spec:
       targetPort: 53
       protocol: UDP
   type: LoadBalancer
-  loadBalancerIp: 192.169.2.250
+  loadBalancerIP: 192.169.2.250
