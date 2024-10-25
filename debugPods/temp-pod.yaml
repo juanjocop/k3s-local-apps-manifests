@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: tmp-pod
-  namespace: domotica
+  namespace: nextcloud
 spec:
   containers:
   - name: tmp-container
@@ -10,11 +10,11 @@ spec:
     command:
       - sleep
       - "3600"
-    volumeMounts:
-    - name: mi-volumen
-      mountPath: /config
-  resources:
-  volumes:
-  - name: mi-volumen
-    persistentVolumeClaim:
-      claimName: frigate-config
+  #   volumeMounts:
+  #   - name: mi-volumen
+  #     mountPath: /config
+  # resources:
+  # volumes:
+  # - name: mi-volumen
+  #   persistentVolumeClaim:
+  #     claimName: frigate-config

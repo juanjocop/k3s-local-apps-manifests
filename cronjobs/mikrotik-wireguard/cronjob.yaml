@@ -21,17 +21,17 @@ spec:
                   key: CF_API_TOKEN
             - name: CF_ZONE_ID
               valueFrom:
-                configMapKeyRef:
-                  name: cloudflare-dns-config-mirkotik-wireguard
+                secretKeyRef:
+                  name: cloudflare-dns-config-mikrotik-wireguard-secret
                   key: CF_ZONE_ID
             - name: CF_RECORD_NAME
               valueFrom:
-                configMapKeyRef:
-                  name: cloudflare-dns-config-mirkotik-wireguard
+                secretKeyRef:
+                  name: cloudflare-dns-config-mikrotik-wireguard-secret
                   key: CF_RECORD_NAME
             - name: CF_RECORD_TYPE
               valueFrom:
-                configMapKeyRef:
-                  name: cloudflare-dns-config-mirkotik-wireguard
+                secretKeyRef:
+                  name: cloudflare-dns-config-mikrotik-wireguard-secret
                   key: CF_RECORD_TYPE
           restartPolicy: OnFailure
