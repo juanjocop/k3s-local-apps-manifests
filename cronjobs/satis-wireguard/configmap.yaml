@@ -7,4 +7,4 @@ data:
   CF_ZONE_ID: a51f52653bb0c387ab1d0d3022b5cc19
   CF_RECORD_TYPE: A
   CF_RECORD_NAME: satisfactory.liontechsolution.com
-  CF_PROXIED: false
+  CF_PROXIED: "false"

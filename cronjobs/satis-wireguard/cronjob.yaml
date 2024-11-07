@@ -37,7 +37,7 @@ spec:
             - name: CF_PROXIED
               valueFrom:
                 configMapKeyRef:
-                  name: cloudflare-dns-config-maitri
+                  name: cloudflare-dns-config-satisfactory
                   key: CF_PROXIED
           restartPolicy: OnFailure
           affinity:
