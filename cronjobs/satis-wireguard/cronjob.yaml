@@ -1,8 +1,8 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: cloudflare-ip-updater-nextcloud
-  namespace: nextcloud
+  name: cloudflare-ip-updater-satisfactory
+  namespace: default
 spec:
   schedule: "0 */5 * * *" # Esto ejecutará el job cada 5 horas. Ajusta esto según lo necesites.
   jobTemplate:
@@ -22,18 +22,23 @@ spec:
             - name: CF_ZONE_ID
               valueFrom:
                 configMapKeyRef:
-                  name: cloudflare-dns-config-maitri
+                  name: cloudflare-dns-config-satisfactory
                   key: CF_ZONE_ID
             - name: CF_RECORD_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: cloudflare-dns-config-maitri
+                  name: cloudflare-dns-config-satisfactory
                   key: CF_RECORD_NAME
             - name: CF_RECORD_TYPE
               valueFrom:
                 configMapKeyRef:
-                  name: cloudflare-dns-config-maitri
+                  name: cloudflare-dns-config-satisfactory
                   key: CF_RECORD_TYPE
+            - name: CF_PROXIED
+              valueFrom:
+                configMapKeyRef:
+                  name: cloudflare-dns-config-maitri
+                  key: CF_PROXIED
           restartPolicy: OnFailure
           affinity:
             nodeAffinity:

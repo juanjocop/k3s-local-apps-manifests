@@ -34,4 +34,9 @@ spec:
                 configMapKeyRef:
                   name: cloudflare-dns-config-maitri
                   key: CF_RECORD_TYPE
+            - name: CF_PROXIED
+              valueFrom:
+                configMapKeyRef:
+                  name: cloudflare-dns-config-maitri
+                  key: CF_PROXIED
           restartPolicy: OnFailure
