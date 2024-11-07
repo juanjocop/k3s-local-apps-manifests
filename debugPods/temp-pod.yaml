@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: tmp-pod
-  namespace: nextcloud
+  namespace: firefly
 spec:
   containers:
   - name: tmp-container

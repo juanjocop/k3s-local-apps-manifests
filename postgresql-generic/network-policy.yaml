@@ -1,19 +1,27 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-nextcloud-to-postgresql
+  name: allow-apps-to-postgresql-generic
   namespace: generic
 spec:
   ingress:
     - from:
+        # - namespaceSelector:
+        #     matchExpressions:
+        #       - key: kubernetes.io/metadata.name
+        #         operator: In
+        #         values:
+        #           - nextcloud
+        #     matchLabels:
+        #       kubernetes.io/metadata.name: nextcloud
         - namespaceSelector:
             matchExpressions:
               - key: kubernetes.io/metadata.name
                 operator: In
                 values:
-                  - nextcloud
-            matchLabels:
-              kubernetes.io/metadata.name: nextcloud
+                  - firefly
+            # matchLabels:
+            #   kubernetes.io/metadata.name: firefly
           # podSelector:
           #   matchExpressions:
           #     - key: app
