@@ -36,7 +36,7 @@ spec:
                   key: CF_RECORD_TYPE
             - name: CF_PROXIED
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: cloudflare-dns-config-mikrotik-wireguard-secret
                   key: CF_PROXIED
           restartPolicy: OnFailure
