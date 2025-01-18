@@ -56,8 +56,12 @@ spec:
       port: 5683
       protocol: UDP
       targetPort: 5683
+    - name: http
+      port: 8123
+      protocol: TCP
+      targetPort: 8123
   selector:
     app: home-assistant
   sessionAffinity: None
-  # loadBalancerIP: 192.168.11.5
+  loadBalancerIP: 192.169.2.2
   type: LoadBalancer
