@@ -46,11 +46,11 @@ spec:
           mountPath: /dev/bus/usb
         resources:
             requests:
-              memory: "1500Mi"
-              cpu: 1500m
+              memory: "2000Mi"
+              cpu: 750m
             limits:
-              memory: "2Gi"
-              cpu: 2
+              memory: "4Gi"
+              cpu: 3
         envFrom:
           - secretRef:
               name: frigate-password
