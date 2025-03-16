@@ -33,6 +33,8 @@ spec:
           containerPort: 5000
         - name: rtmp
           containerPort: 1935
+        - name: rtsp
+          containerPort: 8554
         volumeMounts:
         - name: frigate-config
           mountPath: /config
