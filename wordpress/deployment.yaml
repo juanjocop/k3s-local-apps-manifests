@@ -39,10 +39,10 @@ spec:
         resources:
           requests:
             memory: "600Mi"
-            cpu: "200m"
+            cpu: "500m"
           limits:
-            memory: "700Mi"
-            cpu: "400m"
+            memory: "1Gi"
+            cpu: 2
         readinessProbe:
           httpGet:
             path: /?nocache
