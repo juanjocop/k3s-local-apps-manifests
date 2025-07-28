@@ -190,6 +190,8 @@ spec:
         persistentVolumeClaim:
           claimName: wordpress-maitri
 
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
