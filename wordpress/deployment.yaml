@@ -189,3 +189,40 @@ spec:
       - name: wordpress-persistent-storage
         persistentVolumeClaim:
           claimName: wordpress-maitri
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frpc
+  namespace: wordpress
+  labels:
+    app: frpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frpc
+  template:
+    metadata:
+      labels:
+        app: frpc
+    spec:
+      containers:
+      - name: frpc
+        image: snowdreamtech/frpc:0.62.1
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: config
+          mountPath: /etc/frp/frpc.toml
+          subPath: frpc.toml
+        resources:
+          limits:
+            cpu: 300m
+            memory: 256Mi
+          requests:
+            cpu: 150m
+            memory: 128Mi
+      volumes:
+      - name: config
+        secret:
+          secretName: frpc-secrets-maitri
