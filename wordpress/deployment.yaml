@@ -228,3 +228,134 @@ spec:
       - name: config
         secret:
           secretName: frpc-secrets-maitri
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-nico
+  namespace: wordpress
+  labels:
+    app: wordpress-nico
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress-nico
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress-nico
+    spec:
+      initContainers:
+      - name: volume-permissions
+        image: busybox
+        command: ['sh', '-c', 'chown -R 33:33 /var/www/html && find /var/www/html -type d -exec chmod 755 {} \; && find /var/www/html -type f -exec chmod 644 {} \;']
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html
+      containers:
+      - name: wordpress-nico
+        image: wordpress:5.4-apache
+        ports:
+        - containerPort: 80
+        envFrom:
+        - secretRef:
+            name: wordpress-nico
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "150m"
+          limits:
+            memory: "2Gi"
+            cpu: "650m"
+        readinessProbe:
+          httpGet:
+            path: /?nocache
+            port: 80
+            httpHeaders:
+            - name: X-Forwarded-Proto
+              value: https
+            - name: X-Forwarded-Host
+              value: nicolasbarrasa.com.ar
+            - name: Host
+              value: nicolasbarrasa.com.ar
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /?nocache
+            port: 80
+            httpHeaders:
+            - name: X-Forwarded-Proto
+              value: https
+            - name: X-Forwarded-Host
+              value: nicolasbarrasa.com.ar
+            - name: Host
+              value: nicolasbarrasa.com.ar
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
+      volumes:
+      - name: wordpress-persistent-storage
+        persistentVolumeClaim:
+          claimName: wordpress-nico
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frpc-nico
+  namespace: wordpress
+  labels:
+    app: frpc-nico
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frpc-nico
+  template:
+    metadata:
+      labels:
+        app: frpc-nico
+    spec:
+      containers:
+      - name: frpc-nico
+        image: snowdreamtech/frpc:0.62.1
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: config
+          mountPath: /etc/frp/frpc.toml
+          subPath: frpc.toml
+        resources:
+          limits:
+            cpu: 300m
+            memory: 256Mi
+          requests:
+            cpu: 150m
+            memory: 128Mi
+      volumes:
+      - name: config
+        secret:
+          secretName: frpc-secrets-nico

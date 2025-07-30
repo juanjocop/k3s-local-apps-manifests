@@ -41,6 +41,26 @@ spec:
   sessionAffinity: None
   type: ClusterIP
 
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: wordpress-nico
+  name: wordpress-nico-service
+  namespace: wordpress
+spec:
+  ports:
+    - name: http-nico
+      port: 3090
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: wordpress-nico
+  sessionAffinity: None
+  type: ClusterIP
+
 # ---
 
 # apiVersion: v1
