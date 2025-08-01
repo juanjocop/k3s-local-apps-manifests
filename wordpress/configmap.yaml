@@ -21,3 +21,17 @@ data:
   CF_RECORD_TYPE: A
   CF_RECORD_NAME: asociacionmaitri.es
   CF_PROXIED: "true"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wordpress-php-config-nico
+  namespace: wordpress
+data:
+  php.ini: |
+    upload_max_filesize = 64M
+    post_max_size = 128M
+    memory_limit = 256M
+    max_execution_time = 300

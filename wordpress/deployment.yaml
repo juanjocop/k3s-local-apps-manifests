@@ -307,6 +307,9 @@ spec:
         volumeMounts:
         - name: wordpress-persistent-storage
           mountPath: /var/www/html
+        - name: php-config
+          mountPath: /usr/local/etc/php/conf.d/custom-php.ini
+          subPath: php.ini
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -320,6 +323,9 @@ spec:
       - name: wordpress-persistent-storage
         persistentVolumeClaim:
           claimName: wordpress-nico
+      - name: php-config
+        configMap:
+          name: wordpress-php-config-nico
 
 ---
 
