@@ -64,3 +64,42 @@ spec:
                 operator: NotIn
                 values:
                 - "low"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frpc-ha
+  namespace: domotica
+  labels:
+    app: frpc-ha
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frpc-ha
+  template:
+    metadata:
+      labels:
+        app: frpc-ha
+    spec:
+      containers:
+      - name: frpc-ha
+        image: snowdreamtech/frpc:0.62.1
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: config
+          mountPath: /etc/frp/frpc.toml
+          subPath: frpc.toml
+        resources:
+          limits:
+            cpu: 300m
+            memory: 256Mi
+          requests:
+            cpu: 150m
+            memory: 128Mi
+      volumes:
+      - name: config
+        secret:
+          secretName: frpc-secrets-ha
