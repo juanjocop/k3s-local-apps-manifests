@@ -46,7 +46,7 @@ spec:
       volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: homeassistant
+          claimName: homeassistant-error-recovery
       - name: localtime
         hostPath:
           path: /etc/localtime
