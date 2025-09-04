@@ -61,9 +61,9 @@ spec:
                 values:
                 - "true"
               - key: node.kubernetes.io/performance
-                operator: NotIn
+                operator: In
                 values:
-                - "low"
+                - "high"
 
 # ---
 
