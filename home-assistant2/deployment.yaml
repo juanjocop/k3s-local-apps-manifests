@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-assistant
+  namespace: domotica2
+  labels:
+    app: home-assistant
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: home-assistant
+  template:
+    metadata:
+      labels:
+        app: home-assistant
+    spec:
+      initContainers:
+      - name: volume-permissions
+        image: busybox
+        command: ["sh", "-c", "chown -R 1000:1000 /data"]
+        volumeMounts:
+        - mountPath: /data
+          name: config
+      containers:
+      - name: home-assistant
+        image: homeassistant/home-assistant:stable
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "500m"
+          limits:
+            memory: "3Gi"
+            cpu: "1"
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: homeassistant2
+      - name: localtime
+        hostPath:
+          path: /etc/localtime
+          type: File
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
+              - key: node.kubernetes.io/performance
+                operator: NotIn
+                values:
+                - "low"
+
+# ---
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: frpc-ha
+#   namespace: domotica2
+#   labels:
+#     app: frpc-ha
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: frpc-ha
+#   template:
+#     metadata:
+#       labels:
+#         app: frpc-ha
+#     spec:
+#       containers:
+#       - name: frpc-ha
+#         image: snowdreamtech/frpc:0.62.1
+#         imagePullPolicy: IfNotPresent
+#         volumeMounts:
+#         - name: config
+#           mountPath: /etc/frp/frpc.toml
+#           subPath: frpc.toml
+#         resources:
+#           limits:
+#             cpu: 300m
+#             memory: 256Mi
+#           requests:
+#             cpu: 150m
+#             memory: 128Mi
+#       volumes:
+#       - name: config
+#         secret:
+#           secretName: frpc-secrets-ha
