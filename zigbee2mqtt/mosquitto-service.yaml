@@ -5,6 +5,7 @@ metadata:
   namespace: domotica2
   labels:
     app: mosquitto
+    bgp: blue
 spec:
   type: LoadBalancer
   ports:

@@ -5,6 +5,7 @@ metadata:
   namespace: domotica2
   labels:
     app: zigbee2mqtt
+    bgp: blue
 spec:
   type: LoadBalancer
   ports:
