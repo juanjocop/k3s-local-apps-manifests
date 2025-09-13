@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zigbee2mqtt
+  namespace: domotica2
+  labels:
+    app: zigbee2mqtt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zigbee2mqtt
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: zigbee2mqtt
+    spec:
+      containers:
+      - name: zigbee2mqtt
+        image: koenkk/zigbee2mqtt:1.33.2
+        ports:
+        - containerPort: 8080
+          name: frontend
+        env:
+        - name: TZ
+          value: "Europe/Madrid"
+        - name: ZIGBEE2MQTT_DATA
+          value: "/app/data"
+        volumeMounts:
+        - name: zigbee2mqtt-data
+          mountPath: /app/data
+        - name: zigbee2mqtt-config
+          mountPath: /app/data/configuration.yaml
+          subPath: configuration.yaml
+          readOnly: false
+        securityContext:
+          runAsNonRoot: false
+          runAsUser: 0
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+      volumes:
+      - name: zigbee2mqtt-data
+        persistentVolumeClaim:
+          claimName: zigbee2mqtt-pvc
+      - name: zigbee2mqtt-config
+        configMap:
+          name: zigbee2mqtt-config
+      restartPolicy: Always
