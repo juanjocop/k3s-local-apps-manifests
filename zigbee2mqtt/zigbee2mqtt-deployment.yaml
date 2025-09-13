@@ -31,10 +31,6 @@ spec:
         volumeMounts:
         - name: zigbee2mqtt-data
           mountPath: /app/data
-        - name: zigbee2mqtt-config
-          mountPath: /app/data/configuration.yaml
-          subPath: configuration.yaml
-          readOnly: false
         securityContext:
           runAsNonRoot: false
           runAsUser: 0
@@ -61,9 +57,6 @@ spec:
       - name: zigbee2mqtt-data
         persistentVolumeClaim:
           claimName: zigbee2mqtt-pvc
-      - name: zigbee2mqtt-config
-        configMap:
-          name: zigbee2mqtt-config
       restartPolicy: Always
       nodeSelector:
         node.kubernetes.io/performance: high
