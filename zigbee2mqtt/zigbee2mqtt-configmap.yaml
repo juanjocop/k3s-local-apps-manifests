@@ -5,88 +5,24 @@ metadata:
   namespace: domotica2
 data:
   configuration.yaml: |
-    # Zigbee2MQTT configuration file
-    
-    # Home Assistant integration
     homeassistant: true
-    
-    # MQTT settings
+    permit_join: false
+
+    frontend:
+      port: 8080
+
     mqtt:
-      # MQTT base topic for Zigbee2MQTT MQTT messages
-      base_topic: zigbee2mqtt
-      # MQTT server URL
-      server: 'mqtt://mosquitto-service:1883'
-      # MQTT server authentication (optional)
-      # user: my_user
-      # password: my_password
-      # Client ID (optional)
-      # client_id: my_client_id
-      # Disable self-signed SSL certificates
-      reject_unauthorized: true
-      # Optional: Include device information to mqtt messages (default: false)
-      include_device_information: true
-    
-    # Serial settings
+      server: mqtt://192.169.2.13:1883
+
     serial:
-      # Location of SLZB-MR3 network adapter
+      # Ubicación del SLZB-MR3 por TCP
       port: tcp://192.168.50.18:7638
-      baudrate: 115200
       adapter: zstack
-      # Disable green led?
+      # baudrate: 115200   # (opcional; ignorado en TCP)
       disable_led: false
-    
-    # Network settings
+
     advanced:
-      # Optional: ZigBee pan ID (default: shown below)
-      pan_id: 0x1a62
-      # Optional: Zigbee extended pan ID (default: shown below)
-      ext_pan_id: [0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD]
-      # Optional: ZigBee channel, changing requires re-pairing of all devices. (Note: use a ZLL channel: 11, 15, 20, or 25 to avoid Problems)
-      channel: 11
-      # Optional: network encryption key, changing requires re-pairing of all devices. (Note: use a 16 byte key)
-      network_key: [1, 3, 5, 7, 9, 11, 13, 15, 0, 2, 4, 6, 8, 10, 12, 13]
-      # Optional: Add a last_seen attribute to MQTT messages, contains date/time of last Zigbee message
-      last_seen: 'ISO_8601'
-      # Optional: Add an elapsed attribute to MQTT messages, contains milliseconds since the previous msg
-      elapsed: true
-      # Optional: Availability timeout in seconds, disabled by default (0).
-      availability_timeout: 0
-      # Optional: Logging level, options: debug, info, warn, error (default: info)
+      transmit_power: 20   # dBm (ver nota abajo)
+      channel: 20
       log_level: info
-      # Optional: Location of log directory (default: shown below)
-      log_directory: /app/data/log/%TIMESTAMP%
-      # Optional: Log file name, can contain timestamp, e.g. zigbee2mqtt_%TIMESTAMP%.log (default: shown below)
-      log_file: zigbee2mqtt.log
-      # Optional: Rotate log every 10MB around 3 files (default: true)
-      log_rotation: true
-      # Optional: Output location of the log (default: shown below), leave empty to disable
-      log_output: ['console', 'file']
-      # Optional: Baudrate for serial port (default: shown below)
-      baudrate: 115200
-      # Optional: RTS / CTS Hardware Flow Control for serial port (default: true)
-      rtscts: true
-    
-    # Frontend settings (Web UI)
-    frontend: true
-    
-    # Optional: experimental features
-    experimental:
-      # Optional: MQTT output type: json, attribute or attribute_and_json (default: shown below)
-      output: 'json'
-      # Set output power to max 20
-      transmit_power: 20
-    
-    # Optional: Device specific options
-    device_options:
-      # Optional: Controls the retain flag for messages published by this device (default: false)
-      retain: false
-      # Optional: Add an optimistic attribute to every published message, doesn't work on devices with interrogate
-      optimistic: true
-      # Optional: timeout in seconds when no update is received, device will be marked as offline (default: false)
-      availability: false
-    
-    # Optional: Groups
-    groups: groups.yaml
-    
-    # Optional: Devices
-    devices: devices.yaml
+       
