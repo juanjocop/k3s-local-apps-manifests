@@ -65,3 +65,5 @@ spec:
         configMap:
           name: zigbee2mqtt-config
       restartPolicy: Always
+      nodeSelector:
+        node.kubernetes.io/performance: high
