@@ -47,13 +47,10 @@ spec:
           periodSeconds: 30
           timeoutSeconds: 5
         readinessProbe:
-          httpGet:
-            path: /
-            port: 9001
-            scheme: HTTP
-          initialDelaySeconds: 10
-          periodSeconds: 10
-          timeoutSeconds: 5
+          tcpSocket:
+            port: 1883
+          initialDelaySeconds: 3
+          periodSeconds: 5
       volumes:
       - name: mosquitto-config
         configMap:
