@@ -8,9 +8,6 @@ data:
     # Mosquitto configuration file
     
     # General settings
-    persistence true
-    persistence_location /mosquitto/data/
-    log_dest file /mosquitto/log/mosquitto.log
     log_dest stdout
     log_type error
     log_type warning

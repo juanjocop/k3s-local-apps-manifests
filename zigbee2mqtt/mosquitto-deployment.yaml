@@ -30,12 +30,6 @@ spec:
           mountPath: /mosquitto/config/mosquitto.conf
           subPath: mosquitto.conf
           readOnly: true
-        - name: mosquitto-data
-          mountPath: /mosquitto/data
-          subPath: data
-        - name: mosquitto-log
-          mountPath: /mosquitto/log
-          subPath: log
         resources:
           requests:
             memory: "64Mi"
@@ -64,12 +58,6 @@ spec:
       - name: mosquitto-config
         configMap:
           name: mosquitto-config
-      - name: mosquitto-data
-        persistentVolumeClaim:
-          claimName: mosquitto-pvc
-      - name: mosquitto-log
-        persistentVolumeClaim:
-          claimName: mosquitto-pvc
       restartPolicy: Always
       nodeSelector:
         node.kubernetes.io/performance: high
