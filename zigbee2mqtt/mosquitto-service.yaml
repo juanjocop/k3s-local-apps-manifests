@@ -18,3 +18,4 @@ spec:
     protocol: TCP
   selector:
     app: mosquitto
+  loadBalancerIP: 192.169.2.13

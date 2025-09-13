@@ -14,3 +14,4 @@ spec:
     protocol: TCP
   selector:
     app: zigbee2mqtt
+  loadBalancerIP: 192.169.2.14
