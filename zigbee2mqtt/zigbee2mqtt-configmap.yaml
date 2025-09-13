@@ -67,15 +67,7 @@ data:
       rtscts: true
     
     # Frontend settings (Web UI)
-    frontend:
-      # Optional: default 8080
-      port: 8080
-      # Optional: default 0.0.0.0, :: if you want to listen on both IPv4 and IPv6
-      host: 0.0.0.0
-      # Optional: Path where the frontend can be reached, currently only works for a single level path
-      # url: /zigbee2mqtt
-      # Optional: enable authentication (default: false)
-      auth_token: false
+    frontend: true
     
     # Optional: experimental features
     experimental:
