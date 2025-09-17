@@ -5,6 +5,7 @@ metadata:
   namespace: domotica2
   labels:
     app: otbr
+    bgp: blue
 spec:
   type: LoadBalancer
   loadBalancerIP: 192.169.2.15
