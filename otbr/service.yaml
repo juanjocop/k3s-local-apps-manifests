@@ -10,7 +10,7 @@ spec:
   type: LoadBalancer
   loadBalancerIP: 192.169.2.15
   ports:
-  - name: web/rest
+  - name: web-rest
     port: 8081
     targetPort: 8081
     protocol: TCP

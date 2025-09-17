@@ -46,7 +46,7 @@ spec:
         
         # Ports for OTBR services
         ports:
-        - name: web/rest
+        - name: web-rest
           containerPort: 8081
         
         # Volume mounts for persistent data and network access
