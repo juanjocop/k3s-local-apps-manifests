@@ -58,17 +58,22 @@ spec:
         - name: shared-tmp
           mountPath: /tmp
         
-        # Liveness and readiness probes
-        
+        # El REST de OTBR escucha en 127.0.0.1:8081 por diseño.
+          # Para readiness usamos un exec local a loopback.
         readinessProbe:
-          httpGet:
-            path: /
-            port: 8081
-          initialDelaySeconds: 30
+          exec:
+            command: ["sh","-c","wget -qO- http://127.0.0.1:8081/node/version >/dev/null"]
+          initialDelaySeconds: 10
           periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-      
+          timeoutSeconds: 2
+          failureThreshold: 6
+        livenessProbe:
+          exec:
+            command: ["sh","-c","wget -qO- http://127.0.0.1:8081/node/version >/dev/null"]
+          initialDelaySeconds: 30
+          periodSeconds: 20
+          timeoutSeconds: 3
+
       # ----- Sidecar: socat (TCP->PTY) -----
       - name: socat
         image: alpine/socat:1.8.0.1
@@ -91,6 +96,25 @@ spec:
         volumeMounts:
           - { name: host-dev, mountPath: /dev }    # /dev del host (para devpts compartido)
           - { name: shared-tmp, mountPath: /tmp }  # coloca el enlace /tmp/ttyOTBR aquí
+
+      # Sidecar 2: proxy REST (escucha 0.0.0.0:8082 -> 127.0.0.1:8081)
+      - name: rest-proxy
+        image: alpine/socat
+        command:
+          - sh
+          - -c
+          - |
+            set -e
+            socat -d -d TCP-LISTEN:8082,reuseaddr,fork TCP:127.0.0.1:8081
+        ports:
+          - name: rest-proxy
+            containerPort: 8082
+            protocol: TCP
+        readinessProbe:
+          tcpSocket:
+            port: 8082
+          initialDelaySeconds: 5
+          periodSeconds: 10
       
       # Volumes definition
       volumes:

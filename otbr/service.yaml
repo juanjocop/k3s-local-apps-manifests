@@ -11,8 +11,8 @@ spec:
   loadBalancerIP: 192.169.2.15
   ports:
   - name: web-rest
-    port: 8081
-    targetPort: 8081
+    port: 8082
+    targetPort: 8082
     protocol: TCP
   selector:
     app: otbr
