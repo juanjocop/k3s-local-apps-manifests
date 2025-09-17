@@ -1,0 +1,130 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otbr
+  namespace: domotica2
+  labels:
+    app: otbr
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: otbr
+  template:
+    metadata:
+      labels:
+        app: otbr
+    spec:
+      # Standard cluster networking (no host network needed for remote RCP)
+      # hostNetwork: true  # Not needed for remote RCP via socket
+      # dnsPolicy: ClusterFirstWithHostNet
+      
+      containers:
+      - name: otbr
+        image: openthread/otbr:latest
+        imagePullPolicy: Always
+        
+        # Security context with required privileges for network management
+        securityContext:
+          privileged: false
+          capabilities:
+            add:
+              - NET_ADMIN
+              - NET_RAW
+        
+        # Resource limits and requests
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        
+        # Environment variables from ConfigMap
+        envFrom:
+        - configMapRef:
+            name: otbr-config
+        
+        # Additional environment variables
+        env:
+        - name: OTBR_DOCKER_REBOOT_FLAG
+          value: "false"
+        - name: OTBR_DOCKER_UNIFY_FRONT_END
+          value: "true"
+        
+        # Ports for OTBR services
+        ports:
+        - name: web
+          containerPort: 80
+          protocol: TCP
+        - name: commissioner
+          containerPort: 49191
+          protocol: UDP
+        - name: joiner
+          containerPort: 49192
+          protocol: UDP
+        - name: coap
+          containerPort: 5683
+          protocol: UDP
+        
+        # Volume mounts for persistent data and network access
+        volumeMounts:
+        - name: otbr-data
+          mountPath: /data
+        - name: dev-net-tun
+          mountPath: /dev/net/tun
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+        
+        # Liveness and readiness probes
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+      
+      # Volumes definition
+      volumes:
+      - name: otbr-data
+        persistentVolumeClaim:
+          claimName: otbr-data
+      - name: dev-net-tun
+        hostPath:
+          path: /dev/net/tun
+          type: CharDevice
+      - name: localtime
+        hostPath:
+          path: /etc/localtime
+          type: File
+      
+      # Node affinity for worker nodes (no specific hardware requirements for remote RCP)
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
+              - key: node.kubernetes.io/performance
+                operator: In
+                values:
+                - "high"

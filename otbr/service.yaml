@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: otbr-service
+  namespace: domotica2
+  labels:
+    app: otbr
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 192.169.2.15
+  ports:
+  - name: web
+    port: 80
+    targetPort: 80
+    protocol: TCP
+  - name: commissioner
+    port: 49191
+    targetPort: 49191
+    protocol: UDP
+  - name: joiner
+    port: 49192
+    targetPort: 49192
+    protocol: UDP
+  - name: coap
+    port: 5683
+    targetPort: 5683
+    protocol: UDP
+  selector:
+    app: otbr
