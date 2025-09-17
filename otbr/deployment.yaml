@@ -99,6 +99,48 @@ spec:
           timeoutSeconds: 5
           failureThreshold: 3
       
+      # Sidecar container for troubleshooting and configuration management
+      - name: config-helper
+        image: alpine:latest
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do sleep 3600; done"]
+        
+        # Security context for config helper
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        
+        # Resource limits for sidecar (minimal resources)
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "10m"
+          limits:
+            memory: "128Mi"
+            cpu: "50m"
+        
+        # Environment variables from ConfigMap (same as main container)
+        envFrom:
+        - configMapRef:
+            name: otbr-config
+        
+        # Volume mounts for accessing shared data and configuration
+        volumeMounts:
+        - name: otbr-data
+          mountPath: /data
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+        
+        # Install useful tools for troubleshooting and configuration
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - "/bin/sh"
+              - "-c"
+              - "apk add --no-cache nano vim curl wget netcat-openbsd tcpdump bind-tools && echo 'Sidecar ready for troubleshooting'"
+      
       # Volumes definition
       volumes:
       - name: otbr-data
