@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matter-server
+  namespace: domotica2
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: matter-server }
+  template:
+    metadata:
+      labels: { app: matter-server }
+    spec:
+      hostNetwork: true              # recomendado: mDNS/IPv6 sin trabas del CNI
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: matter-server
+          image: ghcr.io/home-assistant-libs/python-matter-server:stable
+          # El servidor expone WebSocket en 5580 (/ws)
+          ports:
+            - containerPort: 5580
+          volumeMounts:
+            - { name: data, mountPath: /data }
+          # Probes sencillos por TCP
+          readinessProbe:
+            tcpSocket: { port: 5580 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket: { port: 5580 }
+            initialDelaySeconds: 30
+            periodSeconds: 20
+      volumes:
+        - name: data
+          persistentVolumeClaim: { claimName: matter-data }
